@@ -7,9 +7,9 @@
 ## 云原生
 
 * [云原生（Cloud Native）的定义](cloud-native/cloud-native-definition.md)
-* [云原生的设计哲学](cloud-native/cloud-native-philosophy.md)
+* [云原生的设计原理](cloud-native/cloud-native-philosophy.md)
 * [Kubernetes 与云原生应用概览](cloud-native/kubernetes-and-cloud-native-app-overview.md)
-* [云原生应用之路 —— 从 Kubernetes 到 Cloud Native](cloud-native/from-kubernetes-to-cloud-native.md)
+* [从 Kubernetes 到 Cloud Native](cloud-native/from-kubernetes-to-cloud-native.md)
 
 
 * [Kubernetes 架构](concepts/index.md)
