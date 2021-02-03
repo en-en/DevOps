@@ -202,7 +202,6 @@ Kubernetes是一个多租户的云平台，因此必须对用户的权限加以�
 
 **使用Grafana查看应用状态**
 
-**注**：感谢【K8S🤘Cloud Native实战群】尊贵的黄金会员小刚同学提供下面的Grafana监控图🙏
 
 监控分类示意图：
 
@@ -219,70 +218,3 @@ Kubernetes全局监控图2
 该监控可以看到单个用户的namespace下的所有资源的使用情况。
 
 ![Grafana界面示意图3](../images/kubernetes-devops-example-grafana-3.png)
-
-### Spark on Kubernetes
-
-TL;DR [https://jimmysong.io/spark-on-k8s](https://jimmysong.io/spark-on-k8s)
-
-Spark原生支持standalone、mesos和YARN资源调度，现已支持Kubernetes原生调度，详见[运行支持Kubernetes原生调度的spark程序-Spark on Kubernetes](https://jimmysong.io/posts/running-spark-with-kubernetes-native-scheduler/)。
-
-**为何要使用spark on kubernetes**
-
-使用Kubernetes原生调度的spark on kubernetes是对原先的spark on yarn和yarn on docker的改变是革命性的，主要表现在以下几点：
-
-1. **Kubernetes原生调度**：不再需要二层调度，直接使用Kubernetes的资源调度功能，跟其他应用共用整个kubernetes管理的资源池；
-2. **资源隔离，粒度更细**：原先yarn中的queue在spark on kubernetes中已不存在，取而代之的是kubernetes中原生的namespace，可以为每个用户分别指定一个namespace，限制用户的资源quota；
-3. **细粒度的资源分配**：可以给每个spark任务指定资源限制，实际指定多少资源就使用多少资源，因为没有了像yarn那样的二层调度（圈地式的），所以可以更高效和细粒度的使用资源；
-4. **监控的变革**：因为做到了细粒度的资源分配，所以可以对用户提交的每一个任务做到资源使用的监控，从而判断用户的资源使用情况，所有的metric都记录在数据库中，甚至可以为每个用户的每次任务提交计量；
-5. **日志的变革**：用户不再通过yarn的web页面来查看任务状态，而是通过pod的log来查看，可将所有的kuberentes中的应用的日志等同看待收集起来，然后可以根据标签查看对应应用的日志；
-
-**如何提交任务**
-
-仍然使用`spark-submit`提交spark任务，可以直接指定Kubernetes API server地址，下面的命令提交本地jar包到Kubernetes集群上运行，同时指定了运行任务的用户、提交命名的用户、运行的excutor实例数、driver和executor的资源限制、使用的spark版本等信息。
-
-详细使用说明见[Apache Spark on Kubernetes用户指南 - jimmysong.io](https://jimmysong.io/spark-on-k8s/user-guide.html)。
-
-```bash
-./spark-submit \
-  --deploy-mode cluster \
-  --class com.talkingdata.alluxio.hadooptest \
-  --master k8s://https://172.20.0.113:6443 \
-  --kubernetes-namespace spark-cluster \
-  --conf spark.kubernetes.driverEnv.SPARK_USER=hadoop \
-  --conf spark.kubernetes.driverEnv.HADOOP_USER_NAME=hadoop \
-  --conf spark.executorEnv.HADOOP_USER_NAME=hadoop \
-  --conf spark.executorEnv.SPARK_USER=hadoop \
-  --conf spark.kubernetes.authenticate.driver.serviceAccountName=spark \
-  --conf spark.driver.memory=100G \
-  --conf spark.executor.memory=10G \
-  --conf spark.driver.cores=30 \
-  --conf spark.executor.cores=2 \
-  --conf spark.driver.maxResultSize=10240m \
-  --conf spark.kubernetes.driver.limit.cores=32 \
-  --conf spark.kubernetes.executor.limit.cores=3 \
-  --conf spark.kubernetes.executor.memoryOverhead=2g \
-  --conf spark.executor.instances=5 \
-  --conf spark.app.name=spark-pi \
-  --conf spark.kubernetes.driver.docker.image=harbor-001.jimmysong.io/library/spark-driver:v2.1.0-kubernetes-0.3.1-1 \
-  --conf spark.kubernetes.executor.docker.image=harbor-001.jimmysong.io/library/spark-executor:v2.1.0-kubernetes-0.3.1-1 \
-  --conf spark.kubernetes.initcontainer.docker.image=harbor-001.jimmysong.io/library/spark-init:v2.1.0-kubernetes-0.3.1-1 \
-  --conf spark.kubernetes.resourceStagingServer.uri=http://172.20.0.114:31000 \
-~/Downloads/tendcloud_2.10-1.0.jar
-```
-
-**监控**
-
-下图是从Kubernetes dashboard上看到的spark-cluster这个namespace上运行的应用情况。
-
-![dashboard](../images/spark-job-on-kubernetes-example-1.jpg)
-
-下图是从Grafana监控页面上查看到的某个executor资源占用情况。
-
-![Grafana](../images/spark-job-on-kubernetes-example-2.jpg)
-
-## 参考
-
-* [迁移到云原生应用架构指南](https://jimmysong.io/migrating-to-cloud-native-application-architectures)
-* [Cloud Native Go - 已由电子工业出版社出版](https://jimmysong.io/cloud-native-go)
-* [Cloud Native Python - 已由电子工业出版社出版](https://jimmysong.io/posts/cloud-native-python)
-* [Istio Service Mesh 中文文档 v1.2](https://archive.istio.io/v1.2/zh/)
