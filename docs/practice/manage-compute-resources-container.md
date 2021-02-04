@@ -216,29 +216,6 @@ Kubernetes 1.5 版本中引入不透明整型资源。不透明的整型资源�
 
 **示例**
 
-这是一个 HTTP 请求，master 节点是 k8s-master，在 k8s-node-1 节点上通告 5 个 “foo” 资源。
-
-```http
-PATCH /api/v1/nodes/k8s-node-1/status HTTP/1.1
-Accept: application/json
-Content-Type: application/json-patch+json
-Host: k8s-master:8080
-
-[
-  {
-    "op": "add",
-    "path": "/status/capacity/pod.alpha.kubernetes.io~1opaque-int-resource-foo",
-    "value": "5"
-  }
-]
-```
-
-```bash{% raw %}
-curl --header "Content-Type: application/json-patch+json" \
---request PATCH \
---data '[{"op": "add", "path": "/status/capacity/pod.alpha.kubernetes.io~1opaque-int-resource-foo", "value": "5"}]' \
-http://k8s-master:8080/api/v1/nodes/k8s-node-1/status
-```
 
 **注意：** 在前面的请求中，`~1` 是 patch 路径中 `/` 字符的编码。JSON-Patch 中的操作路径值被解释为 JSON-Pointer。更多详细信息请参阅 [IETF RFC 6901, section 3](https://tools.ietf.org/html/rfc6901#section-3)。
 
