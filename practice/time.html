@@ -1,0 +1,1534 @@
+
+<!DOCTYPE HTML>
+<html lang="zh-hans" >
+    <head>
+        <meta charset="UTF-8">
+        <meta content="text/html; charset=utf-8" http-equiv="Content-Type">
+        <title>在 CentOS 上部署 Kubernetes 集群 · 自动运维(DevOps)</title>
+        <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+        <meta name="description" content="">
+        <meta name="generator" content="GitBook 3.2.3">
+        <meta name="author" content="Wang Gang（王刚）">
+        
+        
+    
+    <link rel="stylesheet" href="../gitbook/style.css">
+
+    
+            
+                
+                <link rel="stylesheet" href="../gitbook/gitbook-plugin-splitter/splitter.css">
+                
+            
+                
+                <link rel="stylesheet" href="../gitbook/gitbook-plugin-page-toc-button/plugin.css">
+                
+            
+                
+                <link rel="stylesheet" href="../gitbook/gitbook-plugin-image-captions/image-captions.css">
+                
+            
+                
+                <link rel="stylesheet" href="../gitbook/gitbook-plugin-back-to-top-button/plugin.css">
+                
+            
+                
+                <link rel="stylesheet" href="../gitbook/gitbook-plugin-search-plus/search.css">
+                
+            
+                
+                <link rel="stylesheet" href="../gitbook/gitbook-plugin-tbfed-pagefooter/footer.css">
+                
+            
+                
+                <link rel="stylesheet" href="../gitbook/gitbook-plugin-prism/prism-ghcolors.css">
+                
+            
+                
+                <link rel="stylesheet" href="../gitbook/gitbook-plugin-lightbox/css/lightbox.min.css">
+                
+            
+                
+                <link rel="stylesheet" href="../gitbook/gitbook-plugin-alerts/style.css">
+                
+            
+                
+                <link rel="stylesheet" href="../gitbook/gitbook-plugin-fontsettings/website.css">
+                
+            
+        
+
+    
+
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+
+        
+    
+    
+    
+    
+    <meta name="HandheldFriendly" content="true"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black">
+    <link rel="apple-touch-icon-precomposed" sizes="152x152" href="../gitbook/images/apple-touch-icon-precomposed-152.png">
+    <link rel="shortcut icon" href="../gitbook/images/favicon.ico" type="image/x-icon">
+
+    
+    <link rel="next" href="time.html" />
+    
+    
+    <link rel="prev" href="../concepts/time.html" />
+    
+
+    
+        <link rel="shortcut icon" href='../favicon.ico' type="image/x-icon">
+    
+    
+        <link rel="bookmark" href='../favicon.ico' type="image/x-icon">
+    
+    
+    
+
+    <style>
+    @media only screen and (max-width: 640px) {
+        .book-header .hidden-mobile {
+            display: none;
+        }
+    }
+    </style>
+    <script>
+        window["gitbook-plugin-github-buttons"] = {"repo":"en-en/DevOps.github.io","types":["star"],"size":"small"};
+    </script>
+
+    </head>
+    <body>
+        
+<div class="book">
+    <div class="book-summary">
+        
+            
+<div id="book-search-input" role="search">
+    <input type="text" placeholder="输入并搜索" />
+</div>
+
+            
+                <nav role="navigation">
+                
+
+
+<ul class="summary">
+    
+    
+    
+        
+        <li>
+            <a href="https://en-en.github.io/DevOps.github.io/" target="_blank" class="custom-link">回到主页</a>
+        </li>
+    
+        
+        <li>
+            <a href="https://github.com/en-en/DevOps.github.io/" target="_blank" class="custom-link">资源详情</a>
+        </li>
+    
+    
+
+    
+    <li class="divider"></li>
+    
+
+    
+        
+        <li class="header">前言</li>
+        
+        
+    
+        <li class="chapter " data-level="1.1" data-path="../">
+            
+                <a href="../">
+            
+                    
+                        <b>1.1.</b>
+                    
+                    序言
+            
+                </a>
+            
+
+            
+        </li>
+    
+
+    
+        
+        <li class="header">云原生</li>
+        
+        
+    
+        <li class="chapter " data-level="2.1" data-path="../cloud-native/cloud-native-definition.html">
+            
+                <a href="../cloud-native/cloud-native-definition.html">
+            
+                    
+                        <b>2.1.</b>
+                    
+                    云原生（Cloud Native）的定义
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="2.2" data-path="../cloud-native/cloud-native-philosophy.html">
+            
+                <a href="../cloud-native/cloud-native-philosophy.html">
+            
+                    
+                        <b>2.2.</b>
+                    
+                    云原生的设计
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="2.3" data-path="../cloud-native/kubernetes-and-cloud-native-app-overview.html">
+            
+                <a href="../cloud-native/kubernetes-and-cloud-native-app-overview.html">
+            
+                    
+                        <b>2.3.</b>
+                    
+                    Kubernetes 与云原生应用概览
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="2.4" data-path="../cloud-native/from-kubernetes-to-cloud-native.html">
+            
+                <a href="../cloud-native/from-kubernetes-to-cloud-native.html">
+            
+                    
+                        <b>2.4.</b>
+                    
+                    Kubernetes 到 Cloud Native
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="2.5" data-path="../concepts/time.html">
+            
+                <a href="../concepts/time.html">
+            
+                    
+                        <b>2.5.</b>
+                    
+                    Kubernetes 架构
+            
+                </a>
+            
+
+            
+            <ul class="articles">
+                
+    
+        <li class="chapter " data-level="2.5.1" data-path="../concepts/time.html">
+            
+                <a href="../concepts/time.html">
+            
+                    
+                        <b>2.5.1.</b>
+                    
+                    设计理念
+            
+                </a>
+            
+
+            
+        </li>
+    
+
+            </ul>
+            
+        </li>
+    
+        <li class="chapter " data-level="2.6" data-path="../concepts/time.html">
+            
+                <a href="../concepts/time.html">
+            
+                    
+                        <b>2.6.</b>
+                    
+                    Kubernetes 中的网络
+            
+                </a>
+            
+
+            
+            <ul class="articles">
+                
+    
+        <li class="chapter " data-level="2.6.1" data-path="../concepts/time.html">
+            
+                <a href="../concepts/time.html">
+            
+                    
+                        <b>2.6.1.</b>
+                    
+                    Kubernetes 中的网络解析 —— calico
+            
+                </a>
+            
+
+            
+        </li>
+    
+
+            </ul>
+            
+        </li>
+    
+        <li class="chapter " data-level="2.7" data-path="../concepts/time.html">
+            
+                <a href="../concepts/time.html">
+            
+                    
+                        <b>2.7.</b>
+                    
+                    资源对象与基本概念解析
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="2.8" data-path="../concepts/time.html">
+            
+                <a href="../concepts/time.html">
+            
+                    
+                        <b>2.8.</b>
+                    
+                    Pod 状态与生命周期管理
+            
+                </a>
+            
+
+            
+            <ul class="articles">
+                
+    
+        <li class="chapter " data-level="2.8.1" data-path="../concepts/time.html">
+            
+                <a href="../concepts/time.html">
+            
+                    
+                        <b>2.8.1.</b>
+                    
+                    Pod 概览
+            
+                </a>
+            
+
+            
+        </li>
+    
+
+            </ul>
+            
+        </li>
+    
+        <li class="chapter " data-level="2.9" data-path="../concepts/time.html">
+            
+                <a href="../concepts/time.html">
+            
+                    
+                        <b>2.9.</b>
+                    
+                    集群资源管理
+            
+                </a>
+            
+
+            
+            <ul class="articles">
+                
+    
+        <li class="chapter " data-level="2.9.1" data-path="../concepts/time.html">
+            
+                <a href="../concepts/time.html">
+            
+                    
+                        <b>2.9.1.</b>
+                    
+                    Node
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="2.9.2" data-path="../concepts/time.html">
+            
+                <a href="../concepts/time.html">
+            
+                    
+                        <b>2.9.2.</b>
+                    
+                    Namespace
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="2.9.3" data-path="../concepts/time.html">
+            
+                <a href="../concepts/time.html">
+            
+                    
+                        <b>2.9.3.</b>
+                    
+                    Label
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="2.9.4" data-path="../concepts/time.html">
+            
+                <a href="../concepts/time.html">
+            
+                    
+                        <b>2.9.4.</b>
+                    
+                    Annotation
+            
+                </a>
+            
+
+            
+        </li>
+    
+
+            </ul>
+            
+        </li>
+    
+        <li class="chapter " data-level="2.10" data-path="../concepts/time.html">
+            
+                <a href="../concepts/time.html">
+            
+                    
+                        <b>2.10.</b>
+                    
+                    控制器
+            
+                </a>
+            
+
+            
+            <ul class="articles">
+                
+    
+        <li class="chapter " data-level="2.10.1" data-path="../concepts/time.html">
+            
+                <a href="../concepts/time.html">
+            
+                    
+                        <b>2.10.1.</b>
+                    
+                    Deployment
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="2.10.2" data-path="../concepts/time.html">
+            
+                <a href="../concepts/time.html">
+            
+                    
+                        <b>2.10.2.</b>
+                    
+                    StatefulSet
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="2.10.3" data-path="../concepts/time.html">
+            
+                <a href="../concepts/time.html">
+            
+                    
+                        <b>2.10.3.</b>
+                    
+                    DaemonSet
+            
+                </a>
+            
+
+            
+        </li>
+    
+
+            </ul>
+            
+        </li>
+    
+        <li class="chapter " data-level="2.11" data-path="../concepts/time.html">
+            
+                <a href="../concepts/time.html">
+            
+                    
+                        <b>2.11.</b>
+                    
+                    服务发现
+            
+                </a>
+            
+
+            
+            <ul class="articles">
+                
+    
+        <li class="chapter " data-level="2.11.1" data-path="../concepts/time.html">
+            
+                <a href="../concepts/time.html">
+            
+                    
+                        <b>2.11.1.</b>
+                    
+                    Service
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="2.11.2" data-path="../concepts/time.html">
+            
+                <a href="../concepts/time.html">
+            
+                    
+                        <b>2.11.2.</b>
+                    
+                    Ingress
+            
+                </a>
+            
+
+            
+            <ul class="articles">
+                
+    
+        <li class="chapter " data-level="2.11.2.1" data-path="../concepts/time.html">
+            
+                <a href="../concepts/time.html">
+            
+                    
+                        <b>2.11.2.1.</b>
+                    
+                    Traefik Ingress Controller
+            
+                </a>
+            
+
+            
+        </li>
+    
+
+            </ul>
+            
+        </li>
+    
+
+            </ul>
+            
+        </li>
+    
+        <li class="chapter " data-level="2.12" data-path="../concepts/time.html">
+            
+                <a href="../concepts/time.html">
+            
+                    
+                        <b>2.12.</b>
+                    
+                    身份与权限控制
+            
+                </a>
+            
+
+            
+            <ul class="articles">
+                
+    
+        <li class="chapter " data-level="2.12.1" data-path="../concepts/time.html">
+            
+                <a href="../concepts/time.html">
+            
+                    
+                        <b>2.12.1.</b>
+                    
+                    ServiceAccount
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="2.12.2" data-path="../concepts/time.html">
+            
+                <a href="../concepts/time.html">
+            
+                    
+                        <b>2.12.2.</b>
+                    
+                    RBAC—— 基于角色的访问控制
+            
+                </a>
+            
+
+            
+        </li>
+    
+
+            </ul>
+            
+        </li>
+    
+        <li class="chapter " data-level="2.13" data-path="../concepts/time.html">
+            
+                <a href="../concepts/time.html">
+            
+                    
+                        <b>2.13.</b>
+                    
+                    存储
+            
+                </a>
+            
+
+            
+            <ul class="articles">
+                
+    
+        <li class="chapter " data-level="2.13.1" data-path="../concepts/time.html">
+            
+                <a href="../concepts/time.html">
+            
+                    
+                        <b>2.13.1.</b>
+                    
+                    Secret
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="2.13.2" data-path="../concepts/time.html">
+            
+                <a href="../concepts/time.html">
+            
+                    
+                        <b>2.13.2.</b>
+                    
+                    ConfigMap
+            
+                </a>
+            
+
+            
+            <ul class="articles">
+                
+    
+        <li class="chapter " data-level="2.13.2.1" data-path="../concepts/time.html">
+            
+                <a href="../concepts/time.html">
+            
+                    
+                        <b>2.13.2.1.</b>
+                    
+                    ConfigMap 的热更新
+            
+                </a>
+            
+
+            
+        </li>
+    
+
+            </ul>
+            
+        </li>
+    
+        <li class="chapter " data-level="2.13.3" data-path="../concepts/time.html">
+            
+                <a href="../concepts/time.html">
+            
+                    
+                        <b>2.13.3.</b>
+                    
+                    Volume
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="2.13.4" data-path="../concepts/time.html">
+            
+                <a href="../concepts/time.html">
+            
+                    
+                        <b>2.13.4.</b>
+                    
+                    Persistent Volume（持久化卷）
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="2.13.5" data-path="../concepts/time.html">
+            
+                <a href="../concepts/time.html">
+            
+                    
+                        <b>2.13.5.</b>
+                    
+                    Storage Class
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="2.13.6" data-path="../concepts/time.html">
+            
+                <a href="../concepts/time.html">
+            
+                    
+                        <b>2.13.6.</b>
+                    
+                    本地持久化存储
+            
+                </a>
+            
+
+            
+        </li>
+    
+
+            </ul>
+            
+        </li>
+    
+
+    
+        
+        <li class="header">部署实践</li>
+        
+        
+    
+        <li class="chapter active" data-level="3.1" data-path="time.html">
+            
+                <a href="time.html">
+            
+                    
+                        <b>3.1.</b>
+                    
+                    在 CentOS 上部署 Kubernetes 集群
+            
+                </a>
+            
+
+            
+            <ul class="articles">
+                
+    
+        <li class="chapter active" data-level="3.1.1" data-path="time.html">
+            
+                <a href="time.html">
+            
+                    
+                        <b>3.1.1.</b>
+                    
+                    创建 TLS 证书和秘钥
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter active" data-level="3.1.2" data-path="time.html">
+            
+                <a href="time.html">
+            
+                    
+                        <b>3.1.2.</b>
+                    
+                    创建 kubeconfig 文件
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter active" data-level="3.1.3" data-path="time.html">
+            
+                <a href="time.html">
+            
+                    
+                        <b>3.1.3.</b>
+                    
+                    创建高可用 etcd 集群
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter active" data-level="3.1.4" data-path="time.html">
+            
+                <a href="time.html">
+            
+                    
+                        <b>3.1.4.</b>
+                    
+                    安装 kubectl 命令行工具
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter active" data-level="3.1.5" data-path="time.html">
+            
+                <a href="time.html">
+            
+                    
+                        <b>3.1.5.</b>
+                    
+                    部署 master 节点
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter active" data-level="3.1.6" data-path="time.html">
+            
+                <a href="time.html">
+            
+                    
+                        <b>3.1.6.</b>
+                    
+                    安装 flannel 网络插件
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter active" data-level="3.1.7" data-path="time.html">
+            
+                <a href="time.html">
+            
+                    
+                        <b>3.1.7.</b>
+                    
+                    部署 node 节点
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter active" data-level="3.1.8" data-path="time.html">
+            
+                <a href="time.html">
+            
+                    
+                        <b>3.1.8.</b>
+                    
+                    安装 kubedns 插件
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter active" data-level="3.1.9" data-path="time.html">
+            
+                <a href="time.html">
+            
+                    
+                        <b>3.1.9.</b>
+                    
+                    安装 dashboard 插件
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter active" data-level="3.1.10" data-path="time.html">
+            
+                <a href="time.html">
+            
+                    
+                        <b>3.1.10.</b>
+                    
+                    安装 heapster 插件
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter active" data-level="3.1.11" data-path="time.html">
+            
+                <a href="time.html">
+            
+                    
+                        <b>3.1.11.</b>
+                    
+                    安装 EFK 插件
+            
+                </a>
+            
+
+            
+        </li>
+    
+
+            </ul>
+            
+        </li>
+    
+        <li class="chapter active" data-level="3.2" data-path="time.html">
+            
+                <a href="time.html">
+            
+                    
+                        <b>3.2.</b>
+                    
+                    服务发现与负载均衡
+            
+                </a>
+            
+
+            
+            <ul class="articles">
+                
+    
+        <li class="chapter active" data-level="3.2.1" data-path="time.html">
+            
+                <a href="time.html">
+            
+                    
+                        <b>3.2.1.</b>
+                    
+                    安装 Traefik ingress
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter active" data-level="3.2.2" data-path="time.html">
+            
+                <a href="time.html">
+            
+                    
+                        <b>3.2.2.</b>
+                    
+                    分布式负载测试
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter active" data-level="3.2.3" data-path="time.html">
+            
+                <a href="time.html">
+            
+                    
+                        <b>3.2.3.</b>
+                    
+                    网络和集群性能测试
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter active" data-level="3.2.4" data-path="time.html">
+            
+                <a href="time.html">
+            
+                    
+                        <b>3.2.4.</b>
+                    
+                    边缘节点配置
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter active" data-level="3.2.5" data-path="time.html">
+            
+                <a href="time.html">
+            
+                    
+                        <b>3.2.5.</b>
+                    
+                    安装 Nginx ingress
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter active" data-level="3.2.6" data-path="time.html">
+            
+                <a href="time.html">
+            
+                    
+                        <b>3.2.6.</b>
+                    
+                    安装配置 DNS
+            
+                </a>
+            
+
+            
+            <ul class="articles">
+                
+    
+        <li class="chapter active" data-level="3.2.6.1" data-path="time.html">
+            
+                <a href="time.html">
+            
+                    
+                        <b>3.2.6.1.</b>
+                    
+                    安装配置 Kube-dns
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter active" data-level="3.2.6.2" data-path="time.html">
+            
+                <a href="time.html">
+            
+                    
+                        <b>3.2.6.2.</b>
+                    
+                    安装配置 CoreDNS
+            
+                </a>
+            
+
+            
+        </li>
+    
+
+            </ul>
+            
+        </li>
+    
+
+            </ul>
+            
+        </li>
+    
+        <li class="chapter active" data-level="3.3" data-path="time.html">
+            
+                <a href="time.html">
+            
+                    
+                        <b>3.3.</b>
+                    
+                    存储管理
+            
+                </a>
+            
+
+            
+            <ul class="articles">
+                
+    
+        <li class="chapter active" data-level="3.3.1" data-path="time.html">
+            
+                <a href="time.html">
+            
+                    
+                        <b>3.3.1.</b>
+                    
+                    NFS
+            
+                </a>
+            
+
+            
+            <ul class="articles">
+                
+    
+        <li class="chapter active" data-level="3.3.1.1" data-path="time.html">
+            
+                <a href="time.html">
+            
+                    
+                        <b>3.3.1.1.</b>
+                    
+                    利用 NFS 动态提供 Kubernetes 后端存储卷
+            
+                </a>
+            
+
+            
+        </li>
+    
+
+            </ul>
+            
+        </li>
+    
+
+            </ul>
+            
+        </li>
+    
+        <li class="chapter active" data-level="3.4" data-path="time.html">
+            
+                <a href="time.html">
+            
+                    
+                        <b>3.4.</b>
+                    
+                    集群与应用监控
+            
+                </a>
+            
+
+            
+            <ul class="articles">
+                
+    
+        <li class="chapter active" data-level="3.4.1" data-path="time.html">
+            
+                <a href="time.html">
+            
+                    
+                        <b>3.4.1.</b>
+                    
+                    Prometheus
+            
+                </a>
+            
+
+            
+            <ul class="articles">
+                
+    
+        <li class="chapter active" data-level="3.4.1.1" data-path="time.html">
+            
+                <a href="time.html">
+            
+                    
+                        <b>3.4.1.1.</b>
+                    
+                    使用 Prometheus 监控 kubernetes 集群
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter active" data-level="3.4.1.2" data-path="time.html">
+            
+                <a href="time.html">
+            
+                    
+                        <b>3.4.1.2.</b>
+                    
+                    Prometheus 查询语言 PromQL 使用说明
+            
+                </a>
+            
+
+            
+        </li>
+    
+
+            </ul>
+            
+        </li>
+    
+        <li class="chapter active" data-level="3.4.2" data-path="time.html">
+            
+                <a href="time.html">
+            
+                    
+                        <b>3.4.2.</b>
+                    
+                    使用 Vistio 监控 Istio 服务网格中的流量
+            
+                </a>
+            
+
+            
+        </li>
+    
+
+            </ul>
+            
+        </li>
+    
+        <li class="chapter active" data-level="3.5" data-path="time.html">
+            
+                <a href="time.html">
+            
+                    
+                        <b>3.5.</b>
+                    
+                    分布式跟踪
+            
+                </a>
+            
+
+            
+            <ul class="articles">
+                
+    
+        <li class="chapter active" data-level="3.5.1" data-path="time.html">
+            
+                <a href="time.html">
+            
+                    
+                        <b>3.5.1.</b>
+                    
+                    OpenTracing
+            
+                </a>
+            
+
+            
+        </li>
+    
+
+            </ul>
+            
+        </li>
+    
+        <li class="chapter active" data-level="3.6" data-path="time.html">
+            
+                <a href="time.html">
+            
+                    
+                        <b>3.6.</b>
+                    
+                    服务编排管理
+            
+                </a>
+            
+
+            
+            <ul class="articles">
+                
+    
+        <li class="chapter active" data-level="3.6.1" data-path="time.html">
+            
+                <a href="time.html">
+            
+                    
+                        <b>3.6.1.</b>
+                    
+                    使用 Helm 管理 Kubernetes 应用
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter active" data-level="3.6.2" data-path="time.html">
+            
+                <a href="time.html">
+            
+                    
+                        <b>3.6.2.</b>
+                    
+                    构建私有 Chart 仓库
+            
+                </a>
+            
+
+            
+        </li>
+    
+
+            </ul>
+            
+        </li>
+    
+        <li class="chapter active" data-level="3.7" data-path="time.html">
+            
+                <a href="time.html">
+            
+                    
+                        <b>3.7.</b>
+                    
+                    持续集成与发布
+            
+                </a>
+            
+
+            
+            <ul class="articles">
+                
+    
+        <li class="chapter active" data-level="3.7.1" data-path="time.html">
+            
+                <a href="time.html">
+            
+                    
+                        <b>3.7.1.</b>
+                    
+                    使用 Jenkins 进行持续集成与发布
+            
+                </a>
+            
+
+            
+        </li>
+    
+
+            </ul>
+            
+        </li>
+    
+
+    
+
+    <li class="divider"></li>
+
+    <li>
+        <a href="https://www.gitbook.com" target="blank" class="gitbook-link">
+            本书使用 GitBook 发布
+        </a>
+    </li>
+</ul>
+
+
+                </nav>
+            
+        
+    </div>
+
+    <div class="book-body">
+        
+            <div class="body-inner">
+                
+                    
+
+<div class="book-header" role="navigation">
+    
+
+    <!-- Title -->
+    <h1>
+        <i class="fa fa-circle-o-notch fa-spin"></i>
+        <a href=".." >在 CentOS 上部署 Kubernetes 集群</a>
+    </h1>
+</div>
+
+
+
+
+                    <div class="page-wrapper" tabindex="-1" role="main">
+                        <div class="page-inner">
+                            
+<div class="search-plus" id="book-search-results">
+    <div class="search-noresults">
+    
+                                <section class="normal markdown-section">
+                                
+                                <footer class="page-footer"><span class="copyright"><a href="http://39.104.110.227:8090/" target="_blank">&#x516C;&#x53F8;&#x4FE1;&#x606F;</a><p></p>Copyright &#xA9; 2017-2020 | Distributed under all right reserved&#xFF0C;powered by Gitbook</span><span class="footer-modification"> Updated at 
+2021-02-04 14:36:47
+</span></footer>
+                                
+                                </section>
+                            
+    </div>
+    <div class="search-results">
+        <div class="has-results">
+            
+            <h1 class="search-results-title"><span class='search-results-count'></span> results matching "<span class='search-query'></span>"</h1>
+            <ul class="search-results-list"></ul>
+            
+        </div>
+        <div class="no-results">
+            
+            <h1 class="search-results-title">No results matching "<span class='search-query'></span>"</h1>
+            
+        </div>
+    </div>
+</div>
+
+                        </div>
+                    </div>
+                
+            </div>
+
+            
+                
+                <a href="../concepts/time.html" class="navigation navigation-prev " aria-label="Previous page: 本地持久化存储">
+                    <i class="fa fa-angle-left"></i>
+                </a>
+                
+                
+                <a href="time.html" class="navigation navigation-next " aria-label="Next page: 创建 TLS 证书和秘钥">
+                    <i class="fa fa-angle-right"></i>
+                </a>
+                
+            
+        
+    </div>
+
+    <script>
+        var gitbook = gitbook || [];
+        gitbook.push(function() {
+            gitbook.page.hasChanged({"page":{"title":"在 CentOS 上部署 Kubernetes 集群","level":"3.1","depth":1,"next":{"title":"创建 TLS 证书和秘钥","level":"3.1.1","depth":2,"path":"practice/time.md","ref":"practice/time.md","articles":[]},"previous":{"title":"本地持久化存储","level":"2.13.6","depth":2,"path":"concepts/time.md","ref":"concepts/time.md","articles":[]},"dir":"neutral"},"config":{"plugins":["github","codesnippet","splitter","page-toc-button","image-captions","editlink","back-to-top-button","-lunr","-search","search-plus","github-buttons@2.1.0","favicon@^0.0.2","tbfed-pagefooter@^0.0.1","3-ba","theme-default","-highlight","prism","prism-themes","sitemap-general","lightbox","ga","alerts","livereload"],"styles":{"ebook":"styles/ebook.css","epub":"styles/epub.css","mobi":"styles/mobi.css","pdf":"styles/pdf.css","print":"styles/print.css","website":"styles/website.css"},"pluginsConfig":{"tbfed-pagefooter":{"copyright":"<a href=http://39.104.110.227:8090/>公司信息</a></p>Copyright © 2017-2020 | Distributed under","modify_label":" Updated at ","modify_format":"YYYY-MM-DD HH:mm:ss"},"prism":{"css":["prism-themes/themes/prism-ghcolors.css"]},"github":{"url":"https://github.com/en-en/DevOps.github.io"},"editlink":{"label":"编辑本页","multilingual":false,"base":"https://github.com/en-en/DevOps.github.io/blob/master/"},"livereload":{},"splitter":{},"codesnippet":{},"sitemap-general":{"prefix":"https://github.com/en-en/DevOps.github.io"},"fontsettings":{"theme":"white","family":"sans","size":2},"favicon":{"shortcut":"favicon.ico","bookmark":"favicon.ico"},"lightbox":{"jquery":true,"sameUuid":false},"page-toc-button":{},"back-to-top-button":{},"prism-themes":{},"alerts":{},"github-buttons":{"repo":"en-en/DevOps.github.io","types":["star"],"size":"small"},"3-ba":{"configuration":"auto","token":"11f7d254cfa4e0ca44b175c66d379ecc"},"ga":{"configuration":"auto","token":"UA-93485976-1"},"sharing":{"facebook":true,"twitter":true,"google":false,"weibo":false,"instapaper":false,"vk":false,"all":["facebook","google","twitter","weibo","instapaper"]},"theme-default":{"showLevel":true,"styles":{"ebook":"styles/ebook.css","epub":"styles/epub.css","mobi":"styles/mobi.css","pdf":"styles/pdf.css","print":"styles/print.css","website":"styles/website.css"}},"search-plus":{},"image-captions":{"caption":"图 _PAGE_LEVEL_._PAGE_IMAGE_NUMBER_：_CAPTION_","variable_name":"_pictures"}},"theme":"default","author":"Wang Gang（王刚）","pdf":{"pageNumbers":true,"fontSize":12,"fontFamily":"Arial","paperSize":"a4","chapterMark":"pagebreak","pageBreaksBefore":"/","margin":{"right":62,"left":62,"top":56,"bottom":56}},"structure":{"langs":"LANGS.md","readme":"README.md","glossary":"GLOSSARY.md","summary":"SUMMARY.md"},"variables":{"_pictures":[{"backlink":"cloud-native/kubernetes-and-cloud-native-app-overview.html#fig2.3.1","level":"2.3","list_caption":"Figure: Cloud native思维导图","alt":"Cloud native思维导图","nro":1,"url":"../images/cloud-native-architecutre-mindnode.jpg","index":1,"caption_template":"图 _PAGE_LEVEL_._PAGE_IMAGE_NUMBER_：_CAPTION_","label":"Cloud native思维导图","attributes":{},"skip":false,"key":"2.3.1"},{"backlink":"cloud-native/kubernetes-and-cloud-native-app-overview.html#fig2.3.2","level":"2.3","list_caption":"Figure: 十二因素应用","alt":"十二因素应用","nro":2,"url":"../images/12-factor-app.png","index":2,"caption_template":"图 _PAGE_LEVEL_._PAGE_IMAGE_NUMBER_：_CAPTION_","label":"十二因素应用","attributes":{},"skip":false,"key":"2.3.2"},{"backlink":"cloud-native/kubernetes-and-cloud-native-app-overview.html#fig2.3.3","level":"2.3","list_caption":"Figure: 使用Jenkins进行持续集成与发布流程图","alt":"使用Jenkins进行持续集成与发布流程图","nro":3,"url":"../images/kubernetes-jenkins-ci-cd.png","index":3,"caption_template":"图 _PAGE_LEVEL_._PAGE_IMAGE_NUMBER_：_CAPTION_","label":"使用Jenkins进行持续集成与发布流程图","attributes":{},"skip":false,"key":"2.3.3"},{"backlink":"cloud-native/kubernetes-and-cloud-native-app-overview.html#fig2.3.4","level":"2.3","list_caption":"Figure: filebeat日志收集架构图","alt":"filebeat日志收集架构图","nro":4,"url":"../images/filebeat-log-collector-arch.png","index":4,"caption_template":"图 _PAGE_LEVEL_._PAGE_IMAGE_NUMBER_：_CAPTION_","label":"filebeat日志收集架构图","attributes":{},"skip":false,"key":"2.3.4"},{"backlink":"cloud-native/kubernetes-and-cloud-native-app-overview.html#fig2.3.5","level":"2.3","list_caption":"Figure: kibana界面","alt":"kibana界面","nro":5,"url":"../images/filebeat-docker-test.jpg","index":5,"caption_template":"图 _PAGE_LEVEL_._PAGE_IMAGE_NUMBER_：_CAPTION_","label":"kibana界面","attributes":{},"skip":false,"key":"2.3.5"},{"backlink":"cloud-native/kubernetes-and-cloud-native-app-overview.html#fig2.3.6","level":"2.3","list_caption":"Figure: Grafana界面示意图1","alt":"Grafana界面示意图1","nro":6,"url":"../images/kubernetes-devops-example-grafana-1.png","index":6,"caption_template":"图 _PAGE_LEVEL_._PAGE_IMAGE_NUMBER_：_CAPTION_","label":"Grafana界面示意图1","attributes":{},"skip":false,"key":"2.3.6"},{"backlink":"cloud-native/kubernetes-and-cloud-native-app-overview.html#fig2.3.7","level":"2.3","list_caption":"Figure: Grafana界面示意图2","alt":"Grafana界面示意图2","nro":7,"url":"../images/kubernetes-devops-example-grafana-2.png","index":7,"caption_template":"图 _PAGE_LEVEL_._PAGE_IMAGE_NUMBER_：_CAPTION_","label":"Grafana界面示意图2","attributes":{},"skip":false,"key":"2.3.7"},{"backlink":"cloud-native/kubernetes-and-cloud-native-app-overview.html#fig2.3.8","level":"2.3","list_caption":"Figure: Grafana界面示意图3","alt":"Grafana界面示意图3","nro":8,"url":"../images/kubernetes-devops-example-grafana-3.png","index":8,"caption_template":"图 _PAGE_LEVEL_._PAGE_IMAGE_NUMBER_：_CAPTION_","label":"Grafana界面示意图3","attributes":{},"skip":false,"key":"2.3.8"},{"backlink":"cloud-native/from-kubernetes-to-cloud-native.html#fig2.4.1","level":"2.4","list_caption":"Figure: Kubernetes架构","alt":"Kubernetes架构","nro":9,"url":"../images/kubernetes-high-level-component-archtecture.jpg","index":1,"caption_template":"图 _PAGE_LEVEL_._PAGE_IMAGE_NUMBER_：_CAPTION_","label":"Kubernetes架构","attributes":{},"skip":false,"key":"2.4.1"},{"backlink":"cloud-native/from-kubernetes-to-cloud-native.html#fig2.4.2","level":"2.4","list_caption":"Figure: Cloud Native Core target","alt":"Cloud Native Core target","nro":10,"url":"../images/cloud-native-core-target.jpg","index":2,"caption_template":"图 _PAGE_LEVEL_._PAGE_IMAGE_NUMBER_：_CAPTION_","label":"Cloud Native Core target","attributes":{},"skip":false,"key":"2.4.2"},{"backlink":"cloud-native/from-kubernetes-to-cloud-native.html#fig2.4.3","level":"2.4","list_caption":"Figure: Cloud Native Features","alt":"Cloud Native Features","nro":11,"url":"https://jimmysong.io/kubernetes-handbook/images/cloud-native-architecutre-mindnode.jpg","index":3,"caption_template":"图 _PAGE_LEVEL_._PAGE_IMAGE_NUMBER_：_CAPTION_","label":"Cloud Native Features","attributes":{},"skip":false,"key":"2.4.3"},{"backlink":"cloud-native/from-kubernetes-to-cloud-native.html#fig2.4.4","level":"2.4","list_caption":"Figure: Building a Cloud Native Architecture with Kubernetes followed 12 factor app","alt":"Building a Cloud Native Architecture with Kubernetes followed 12 factor app","nro":12,"url":"../images/building-cloud-native-architecture-with-kubernetes.png","index":4,"caption_template":"图 _PAGE_LEVEL_._PAGE_IMAGE_NUMBER_：_CAPTION_","label":"Building a Cloud Native Architecture with Kubernetes followed 12 factor app","attributes":{},"skip":false,"key":"2.4.4"},{"backlink":"cloud-native/from-kubernetes-to-cloud-native.html#fig2.4.5","level":"2.4","list_caption":"Figure: Kubernetes solutions","alt":"Kubernetes solutions","nro":13,"url":"../images/0069RVTdgy1fv5mzywc83j31fk1i8qg4.jpg","index":5,"caption_template":"图 _PAGE_LEVEL_._PAGE_IMAGE_NUMBER_：_CAPTION_","label":"Kubernetes solutions","attributes":{},"skip":false,"key":"2.4.5"}]},"title":"自动运维(DevOps)","language":"zh-hans","links":{"sidebar":{"回到主页":"https://en-en.github.io/DevOps.github.io/","资源详情":"https://github.com/en-en/DevOps.github.io/"}},"gitbook":"*","description":"描述公司运维技术选型，以及技术实现具体方案细节"},"file":{"path":"practice/time.md","mtime":"2021-02-04T06:36:47.019Z","type":"markdown"},"gitbook":{"version":"3.2.3","time":"2021-02-04T06:37:23.805Z"},"basePath":"..","book":{"language":""}});
+        });
+    </script>
+</div>
+
+        
+    <script src="../gitbook/gitbook.js"></script>
+    <script src="../gitbook/theme.js"></script>
+    
+        
+        <script src="../gitbook/gitbook-plugin-github/plugin.js"></script>
+        
+    
+        
+        <script src="../gitbook/gitbook-plugin-splitter/splitter.js"></script>
+        
+    
+        
+        <script src="../gitbook/gitbook-plugin-page-toc-button/plugin.js"></script>
+        
+    
+        
+        <script src="../gitbook/gitbook-plugin-editlink/plugin.js"></script>
+        
+    
+        
+        <script src="../gitbook/gitbook-plugin-back-to-top-button/plugin.js"></script>
+        
+    
+        
+        <script src="../gitbook/gitbook-plugin-search-plus/jquery.mark.min.js"></script>
+        
+    
+        
+        <script src="../gitbook/gitbook-plugin-search-plus/search.js"></script>
+        
+    
+        
+        <script src="../gitbook/gitbook-plugin-github-buttons/plugin.js"></script>
+        
+    
+        
+        <script src="../gitbook/gitbook-plugin-3-ba/plugin.js"></script>
+        
+    
+        
+        <script src="../gitbook/gitbook-plugin-lightbox/js/lightbox.min.js"></script>
+        
+    
+        
+        <script src="../gitbook/gitbook-plugin-ga/plugin.js"></script>
+        
+    
+        
+        <script src="../gitbook/gitbook-plugin-alerts/plugin.js"></script>
+        
+    
+        
+        <script src="../gitbook/gitbook-plugin-livereload/plugin.js"></script>
+        
+    
+        
+        <script src="../gitbook/gitbook-plugin-sharing/buttons.js"></script>
+        
+    
+        
+        <script src="../gitbook/gitbook-plugin-fontsettings/fontsettings.js"></script>
+        
+    
+
+    </body>
+</html>
+
