@@ -5,8 +5,8 @@
     "author": "Wang Gang（王刚）",
     "links": {
         "sidebar": {
-            "回到主页": "https://jimmysong.io",
-            "资源详情": "https://jimmysong.io/awesome-cloud-native"
+            "回到主页": "https://en-en.github.io/DevOps.github.io/",
+            "资源详情": "https://github.com/en-en/DevOps.github.io/"
         }
     },
     "plugins": [
@@ -34,17 +34,17 @@
             "showLevel": true
         },
         "github": {
-            "url": "https://github.com/rootsongjc/kubernetes-handbook"
+            "url": "https://github.com/en-en/DevOps.github.io"
         },
         "editlink": {
-            "base": "https://github.com/rootsongjc/kubernetes-handbook/blob/master/",
+            "base": "https://github.com/en-en/DevOps.github.io/blob/master/",
             "label": "编辑本页"
         },
         "image-captions": {
             "caption": "图 _PAGE_LEVEL_._PAGE_IMAGE_NUMBER_：_CAPTION_"
         },
         "github-buttons": {
-            "repo": "rootsongjc/kubernetes-handbook",
+            "repo": "en-en/DevOps.github.io",
             "types": ["star"],
             "size": "small"
         },
@@ -66,7 +66,7 @@
             ]
         },
         "sitemap-general": {
-            "prefix": "https://jimmysong.io/kubernetes-handbook/"
+            "prefix": "https://github.com/en-en/DevOps.github.io"
         },
         "ga": {
             "token": "UA-93485976-1"

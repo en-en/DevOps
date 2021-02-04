@@ -1,18 +1,6 @@
 # 云原生应用之路——从Kubernetes到Cloud Native
 
 
-## 容器
-
-> 容器——Cloud Native的基石
-
-容器最初是通过开发者工具而流行，可以使用它来做隔离的开发测试环境和持续集成环境，这些都是因为容器轻量级，易于配置和使用带来的优势，docker和docker-compose这样的工具极大的方便的了应用开发环境的搭建，开发者就像是化学家一样在其中小心翼翼的进行各种调试和开发。
-
-容器生态图：
-
-![容器生态图 Container ecosystem](../images/container-ecosystem.png)
-
-该生态涵盖了容器应用中从镜像仓库、服务编排、安全管理、持续集成与发布、存储和网络管理等各个方面，随着在单主机中运行容器的成熟，集群管理和容器编排成为容器技术亟待解决的问题。譬如化学家在实验室中研究出来的新产品，如何推向市场，进行大规模生产，成了新的议题。
-
 ## 为什么使用Kubernetes
 
 > Kubernetes——让容器应用进入大规模工业生产。
@@ -62,32 +50,21 @@ CNCF（云原生计算基金会）给出了云原生应用的三大特征：
 11. 日志作为事件流
 12. 管理进程
 
-另外还有补充的三点：
 
 - API声明管理
 - 认证和授权
 - 监控与告警
 
-如果落实的具体的工具，请看下图，使用Kubernetes构建云原生架构：
+使用Kubernetes构建云原生架构：
 
 ![Building a Cloud Native Architecture with Kubernetes followed 12 factor app](../images/building-cloud-native-architecture-with-kubernetes.png)
 
-结合这12因素对开发或者改造后的应用适合部署到Kubernetes之上，基本流程如下图所示：
-
-![Creating Kubernetes native app](../images/creating-kubernetes-native-app.jpg)
 
 
 ## 使用场景
 
 > Cloud Native的大规模工业生产
 
-**GitOps**
-
-给开发者带来最大的配置和上线的灵活性，践行DevOps流程，改善研发效率，下图这样的情况将更少发生。
-
-![Deployment pipeline](../images/0069RVTdgy1fv5mzj8rj6j318g1ewtfc.jpg)
-
-我们知道Kubernetes中的所有应用的部署都是基于YAML文件的，这实际上就是一种**Infrastructure as code**，完全可以通过Git来管控基础设施和部署环境的变更。
 
 ## Open Source
 
