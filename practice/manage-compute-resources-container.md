@@ -216,24 +216,6 @@ Kubernetes 1.5 版本中引入不透明整型资源。不透明的整型资源�
 
 **示例**
 
-
-**注意：** 在前面的请求中，`~1` 是 patch 路径中 `/` 字符的编码。JSON-Patch 中的操作路径值被解释为 JSON-Pointer。更多详细信息请参阅 [IETF RFC 6901, section 3](https://tools.ietf.org/html/rfc6901#section-3)。
-
-```yaml
-apiVersion: v1
-kind: Pod
-metadata:
-  name: my-pod
-spec:
-  containers:
-  - name: my-container
-    image: myimage
-    resources:
-      requests:
-        cpu: 2
-        pod.alpha.kubernetes.io/opaque-int-resource-foo: 1
-```
-
 ## 计划改进
 
 在 kubernetes 1.5 版本中仅允许在容器上指定资源量。计划改进对所有容器在 Pod 中共享资源的计量，如 [emptyDir volume](https://kubernetes.io/docs/concepts/storage/volumes/#emptydir)。
