@@ -5,9 +5,3 @@
 CNCF 提出了分布式追踪的标准 [OpenTracing](https://opentracing.io/)，它提供用厂商中立的 API，并提供 Go、Java、JavaScript、Python、Ruby、PHP、Objective-C、C++ 和 C# 这九种语言的库。
 
 同时 CNCF  中还有个端到端的支持 OpenTracing API 的分布式追踪项目 [Jaeger](https://www.jaegertracing.io/)。
-
-## 参考
-
-- [OpenTracing 官方网站](https://opentracing.io/)
-- [Jaeger 官方网站](https://www.jaegertracing.io/)
-- [Apache SkyWalking 官方网站](https://skywalking.apache.org/)

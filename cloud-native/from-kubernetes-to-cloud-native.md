@@ -1,5 +1,3 @@
-# 云原生应用之路——从Kubernetes到Cloud Native
-
 
 ## 为什么使用Kubernetes
 
@@ -61,13 +59,8 @@ CNCF（云原生计算基金会）给出了云原生应用的三大特征：
 
 
 
-## 使用场景
-
-> Cloud Native的大规模工业生产
-
-
 ## Open Source
 
 Kubernetes调研方案选择。
 
-![Kubernetes solutions](../images/0069RVTdgy1fv5mzywc83j31fk1i8qg4.jpg)
+![Kubernetes solutions](../images/Q20210205161131.jpg)

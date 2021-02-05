@@ -101,10 +101,3 @@ Trace 通常指一次完整的调用链。如上文中的 Jaeger UI 截图就是
 ```
 
 在开发应用时需要使用兼容 OpenTracing API 的 Tracing 实现库，例如 [Jaeger](https://www.jaegertracing.io) 来实现自动的分布式追踪。
-
-## 参考
-
-- [OpenTracing 官方网站](https://opentracing.io/)
-- [OpenTracing 语义规范（Semantic Specification）](https://github.com/opentracing/specification/blob/master/specification.md)
-- [OpenTracing 语义约定（Semantic Conventions）](https://github.com/opentracing/specification/blob/master/semantic_conventions.md)
-- [开放分布式追踪（OpenTracing）入门与 Jaeger 实现](https://yq.aliyun.com/articles/514488#19)

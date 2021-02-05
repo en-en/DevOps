@@ -9,7 +9,7 @@ gcr.io/google_containers/k8s-dns-dnsmasq-nanny-amd64:1.14.1
 gcr.io/google_containers/k8s-dns-kube-dns-amd64:1.14.1
 gcr.io/google_containers/k8s-dns-sidecar-amd64:1.14.1
 ```
-我clone了上述镜像，上传到我的私有镜像仓库：
+clone了上述镜像，上传到私有镜像仓库：
 
 ```ini
 harbor-001.jimmysong.io/library/k8s-dns-dnsmasq-nanny-amd64:1.14.1

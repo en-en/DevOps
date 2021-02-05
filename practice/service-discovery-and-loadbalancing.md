@@ -128,11 +128,3 @@ spec:
 
 这个例子中，在kubernetes集群内访问`my-service`实际上会重定向到`my.database.example.com:12345`这个地址。
 
-## 参考资料
-
-- https://kubernetes.io/docs/concepts/services-networking/service/
-- http://kubernetes.io/docs/user-guide/ingress/
-- https://github.com/kubernetes/contrib/tree/master/service-loadbalancer
-- https://www.nginx.com/blog/load-balancing-kubernetes-services-nginx-plus/
-- https://github.com/weaveworks/flux
-- https://github.com/AdoHe/kube2haproxy

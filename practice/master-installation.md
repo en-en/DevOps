@@ -11,10 +11,6 @@ kubernetes master 节点包含的组件：
 + `kube-scheduler`、`kube-controller-manager` 和 `kube-apiserver` 三者的功能紧密相关；
 + 同时只能有一个 `kube-scheduler`、`kube-controller-manager` 进程处于工作状态，如果运行多个，则需要通过选举产生一个 leader；
 
-**注**：
-
-- 暂时未实现master节点的高可用
-- master节点上没有部署flannel网络插件，如果想要在master节点上也能访问ClusterIP，请参考下一节[部署node节点](node-installation.md)中的配置Flanneld部分。
 
 ## TLS 证书文件
 

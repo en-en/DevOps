@@ -1,8 +1,6 @@
 ## 安装flannel网络插件
 
-所有的node节点都需要安装网络插件才能让所有的Pod加入到同一个局域网中，本文是安装flannel网络插件的参考文档。
-
-建议直接使用yum安装flanneld，除非对版本有特殊需求，默认安装的是0.7.1版本的flannel。
+yum安装flanneld，除非对版本有特殊需求，默认安装的是0.7.1版本的flannel。
 
 ```bash
 yum install -y flannel
@@ -123,5 +121,3 @@ $etcdctl --endpoints=${ETCD_ENDPOINTS} \
   get /kube-centos/network/subnets/172.30.46.0-24
 {"PublicIP":"172.20.0.113","BackendType":"vxlan","BackendData":{"VtepMAC":"e6:b2:fd:f6:66:96"}}
 ```
-
-如果可以查看到以上内容证明flannel已经安装完成，下一步是在node节点上安装和配置docker、kubelet、kube-proxy等，请参考下一节[部署node节点](node-installation.md)。

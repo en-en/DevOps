@@ -1,10 +1,9 @@
 # 安装dashboard插件
 
-> 注意：本文档中安装的是kubernetes dashboard v1.6.0，安装新版的dashboard请参考[升级dashboard](dashboard-upgrade.md)。
 
 官方文件目录：https://github.com/kubernetes/kubernetes/tree/master/cluster/addons/dashboard
 
-我们使用的文件如下：
+使用的文件如下：
 
 ``` bash
 $ ls *.yaml
@@ -197,8 +196,6 @@ Dashboard 的访问地址不变，重新访问 <http://172.20.0.113:8080/api/v1/
 
 新版本中最大的变化是增加了进入容器内部的入口，可以在页面上进入到容器内部操作，同时又增加了一个搜索框。
 
-关于如何将dashboard从1.6版本升级到1.7版本请参考[升级dashboard](dashboard-upgrade.md)。
-
 ## 问题
 
 ### 1. 按照教程安装后，发现dashboard pod 无法启动
@@ -245,6 +242,3 @@ kubectl -n kube-system describe pod dashboard-xxxxxxx
 
 可以在dashboard的YAML文件中配置[启动参数](https://github.com/kubernetes/dashboard/wiki/Dashboard-arguments)，比如设置token的默认过期时间、heapster地址、绑定的证书等。
 
-## 参考
-
-- [WebUI(Dashboard) 文档](https://kubernetes.io/docs/tasks/access-application-cluster/web-ui-dashboard/)

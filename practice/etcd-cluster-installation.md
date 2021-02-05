@@ -138,7 +138,3 @@ cluster is healthy
 
 结果最后一行为 `cluster is healthy` 时表示集群服务正常。
 
-## 更多资料
-
-关于如何在etcd中查看kubernetes的数据，请参考[使用etcdctl访问kuberentes数据](../guide/using-etcdctl-to-access-kubernetes-data.md)。
-
