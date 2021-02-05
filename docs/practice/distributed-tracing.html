@@ -1,0 +1,932 @@
+
+<!DOCTYPE HTML>
+<html lang="zh-hans" >
+    <head>
+        <meta charset="UTF-8">
+        <meta content="text/html; charset=utf-8" http-equiv="Content-Type">
+        <title>分布式跟踪 · 自动运维(DevOps)</title>
+        <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+        <meta name="description" content="">
+        <meta name="generator" content="GitBook 3.2.3">
+        <meta name="author" content="Wang Gang（王刚）">
+        
+        
+    
+    <link rel="stylesheet" href="../gitbook/style.css">
+
+    
+            
+                
+                <link rel="stylesheet" href="../gitbook/gitbook-plugin-splitter/splitter.css">
+                
+            
+                
+                <link rel="stylesheet" href="../gitbook/gitbook-plugin-page-toc-button/plugin.css">
+                
+            
+                
+                <link rel="stylesheet" href="../gitbook/gitbook-plugin-image-captions/image-captions.css">
+                
+            
+                
+                <link rel="stylesheet" href="../gitbook/gitbook-plugin-back-to-top-button/plugin.css">
+                
+            
+                
+                <link rel="stylesheet" href="../gitbook/gitbook-plugin-search-plus/search.css">
+                
+            
+                
+                <link rel="stylesheet" href="../gitbook/gitbook-plugin-tbfed-pagefooter/footer.css">
+                
+            
+                
+                <link rel="stylesheet" href="../gitbook/gitbook-plugin-prism/prism-ghcolors.css">
+                
+            
+                
+                <link rel="stylesheet" href="../gitbook/gitbook-plugin-lightbox/css/lightbox.min.css">
+                
+            
+                
+                <link rel="stylesheet" href="../gitbook/gitbook-plugin-alerts/style.css">
+                
+            
+                
+                <link rel="stylesheet" href="../gitbook/gitbook-plugin-fontsettings/website.css">
+                
+            
+        
+
+    
+
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+
+        
+    
+    
+    
+    
+    <meta name="HandheldFriendly" content="true"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black">
+    <link rel="apple-touch-icon-precomposed" sizes="152x152" href="../gitbook/images/apple-touch-icon-precomposed-152.png">
+    <link rel="shortcut icon" href="../gitbook/images/favicon.ico" type="image/x-icon">
+
+    
+    <link rel="next" href="opentracing.html" />
+    
+    
+    <link rel="prev" href="using-prometheus-to-monitor-kuberentes-cluster.html" />
+    
+
+    
+        <link rel="shortcut icon" href='../favicon.ico' type="image/x-icon">
+    
+    
+        <link rel="bookmark" href='../favicon.ico' type="image/x-icon">
+    
+    
+    
+
+    <style>
+    @media only screen and (max-width: 640px) {
+        .book-header .hidden-mobile {
+            display: none;
+        }
+    }
+    </style>
+    <script>
+        window["gitbook-plugin-github-buttons"] = {"repo":"en-en/DevOps.github.io","types":["star"],"size":"small"};
+    </script>
+
+    </head>
+    <body>
+        
+<div class="book">
+    <div class="book-summary">
+        
+            
+<div id="book-search-input" role="search">
+    <input type="text" placeholder="输入并搜索" />
+</div>
+
+            
+                <nav role="navigation">
+                
+
+
+<ul class="summary">
+    
+    
+    
+        
+        <li>
+            <a href="https://en-en.github.io/DevOps.github.io/" target="_blank" class="custom-link">回到主页</a>
+        </li>
+    
+        
+        <li>
+            <a href="https://github.com/en-en/DevOps.github.io/" target="_blank" class="custom-link">资源详情</a>
+        </li>
+    
+    
+
+    
+    <li class="divider"></li>
+    
+
+    
+        
+        <li class="header">前言</li>
+        
+        
+    
+        <li class="chapter " data-level="1.1" data-path="../">
+            
+                <a href="../">
+            
+                    
+                        <b>1.1.</b>
+                    
+                    序言
+            
+                </a>
+            
+
+            
+        </li>
+    
+
+    
+        
+        <li class="header">云原生</li>
+        
+        
+    
+        <li class="chapter " data-level="2.1" data-path="../cloud-native/cloud-native-definition.html">
+            
+                <a href="../cloud-native/cloud-native-definition.html">
+            
+                    
+                        <b>2.1.</b>
+                    
+                    云原生（Cloud Native）的定义
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="2.2" data-path="../cloud-native/cloud-native-philosophy.html">
+            
+                <a href="../cloud-native/cloud-native-philosophy.html">
+            
+                    
+                        <b>2.2.</b>
+                    
+                    云原生的设计
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="2.3" data-path="../cloud-native/kubernetes-and-cloud-native-app-overview.html">
+            
+                <a href="../cloud-native/kubernetes-and-cloud-native-app-overview.html">
+            
+                    
+                        <b>2.3.</b>
+                    
+                    Kubernetes 与云原生应用概览
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="2.4" data-path="../cloud-native/from-kubernetes-to-cloud-native.html">
+            
+                <a href="../cloud-native/from-kubernetes-to-cloud-native.html">
+            
+                    
+                        <b>2.4.</b>
+                    
+                    运维环境
+            
+                </a>
+            
+
+            
+        </li>
+    
+
+    
+        
+        <li class="header">部署实践</li>
+        
+        
+    
+        <li class="chapter " data-level="3.1" data-path="install-kubernetes-on-centos.html">
+            
+                <a href="install-kubernetes-on-centos.html">
+            
+                    
+                        <b>3.1.</b>
+                    
+                    在 CentOS 上部署 Kubernetes 集群
+            
+                </a>
+            
+
+            
+            <ul class="articles">
+                
+    
+        <li class="chapter " data-level="3.1.1" data-path="create-tls-and-secret-key.html">
+            
+                <a href="create-tls-and-secret-key.html">
+            
+                    
+                        <b>3.1.1.</b>
+                    
+                    创建 TLS 证书和秘钥
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="3.1.2" data-path="create-kubeconfig.html">
+            
+                <a href="create-kubeconfig.html">
+            
+                    
+                        <b>3.1.2.</b>
+                    
+                    创建 kubeconfig 文件
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="3.1.3" data-path="etcd-cluster-installation.html">
+            
+                <a href="etcd-cluster-installation.html">
+            
+                    
+                        <b>3.1.3.</b>
+                    
+                    创建高可用 etcd 集群
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="3.1.4" data-path="kubectl-installation.html">
+            
+                <a href="kubectl-installation.html">
+            
+                    
+                        <b>3.1.4.</b>
+                    
+                    安装 kubectl 命令行工具
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="3.1.5" data-path="master-installation.html">
+            
+                <a href="master-installation.html">
+            
+                    
+                        <b>3.1.5.</b>
+                    
+                    部署 master 节点
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="3.1.6" data-path="flannel-installation.html">
+            
+                <a href="flannel-installation.html">
+            
+                    
+                        <b>3.1.6.</b>
+                    
+                    安装 flannel 网络插件
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="3.1.7" data-path="node-installation.html">
+            
+                <a href="node-installation.html">
+            
+                    
+                        <b>3.1.7.</b>
+                    
+                    部署 node 节点
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="3.1.8" data-path="kubedns-addon-installation.html">
+            
+                <a href="kubedns-addon-installation.html">
+            
+                    
+                        <b>3.1.8.</b>
+                    
+                    安装 kubedns 插件
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="3.1.9" data-path="dashboard-addon-installation.html">
+            
+                <a href="dashboard-addon-installation.html">
+            
+                    
+                        <b>3.1.9.</b>
+                    
+                    安装 dashboard 插件
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="3.1.10" data-path="efk-addon-installation.html">
+            
+                <a href="efk-addon-installation.html">
+            
+                    
+                        <b>3.1.10.</b>
+                    
+                    安装 EFK 插件
+            
+                </a>
+            
+
+            
+        </li>
+    
+
+            </ul>
+            
+        </li>
+    
+        <li class="chapter " data-level="3.2" data-path="service-discovery-and-loadbalancing.html">
+            
+                <a href="service-discovery-and-loadbalancing.html">
+            
+                    
+                        <b>3.2.</b>
+                    
+                    服务发现与负载均衡
+            
+                </a>
+            
+
+            
+            <ul class="articles">
+                
+    
+        <li class="chapter " data-level="3.2.1" data-path="traefik-ingress-installation.html">
+            
+                <a href="traefik-ingress-installation.html">
+            
+                    
+                        <b>3.2.1.</b>
+                    
+                    安装 Traefik ingress
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="3.2.2" data-path="nginx-ingress-installation.html">
+            
+                <a href="nginx-ingress-installation.html">
+            
+                    
+                        <b>3.2.2.</b>
+                    
+                    安装 Nginx ingress
+            
+                </a>
+            
+
+            
+        </li>
+    
+
+            </ul>
+            
+        </li>
+    
+        <li class="chapter " data-level="3.3" data-path="storage.html">
+            
+                <a href="storage.html">
+            
+                    
+                        <b>3.3.</b>
+                    
+                    存储管理
+            
+                </a>
+            
+
+            
+            <ul class="articles">
+                
+    
+        <li class="chapter " data-level="3.3.1" data-path="nfs.html">
+            
+                <a href="nfs.html">
+            
+                    
+                        <b>3.3.1.</b>
+                    
+                    NFS
+            
+                </a>
+            
+
+            
+            <ul class="articles">
+                
+    
+        <li class="chapter " data-level="3.3.1.1" data-path="using-nfs-for-persistent-storage.html">
+            
+                <a href="using-nfs-for-persistent-storage.html">
+            
+                    
+                        <b>3.3.1.1.</b>
+                    
+                    利用 NFS 动态提供 Kubernetes 后端存储卷
+            
+                </a>
+            
+
+            
+        </li>
+    
+
+            </ul>
+            
+        </li>
+    
+
+            </ul>
+            
+        </li>
+    
+        <li class="chapter " data-level="3.4" data-path="monitoring.html">
+            
+                <a href="monitoring.html">
+            
+                    
+                        <b>3.4.</b>
+                    
+                    集群与应用监控
+            
+                </a>
+            
+
+            
+            <ul class="articles">
+                
+    
+        <li class="chapter " data-level="3.4.1" data-path="prometheus.html">
+            
+                <a href="prometheus.html">
+            
+                    
+                        <b>3.4.1.</b>
+                    
+                    Prometheus
+            
+                </a>
+            
+
+            
+            <ul class="articles">
+                
+    
+        <li class="chapter " data-level="3.4.1.1" data-path="using-prometheus-to-monitor-kuberentes-cluster.html">
+            
+                <a href="using-prometheus-to-monitor-kuberentes-cluster.html">
+            
+                    
+                        <b>3.4.1.1.</b>
+                    
+                    使用 Prometheus 监控 kubernetes 集群
+            
+                </a>
+            
+
+            
+        </li>
+    
+
+            </ul>
+            
+        </li>
+    
+
+            </ul>
+            
+        </li>
+    
+        <li class="chapter active" data-level="3.5" data-path="distributed-tracing.html">
+            
+                <a href="distributed-tracing.html">
+            
+                    
+                        <b>3.5.</b>
+                    
+                    分布式跟踪
+            
+                </a>
+            
+
+            
+            <ul class="articles">
+                
+    
+        <li class="chapter " data-level="3.5.1" data-path="opentracing.html">
+            
+                <a href="opentracing.html">
+            
+                    
+                        <b>3.5.1.</b>
+                    
+                    OpenTracing
+            
+                </a>
+            
+
+            
+        </li>
+    
+
+            </ul>
+            
+        </li>
+    
+        <li class="chapter " data-level="3.6" data-path="ci-cd.html">
+            
+                <a href="ci-cd.html">
+            
+                    
+                        <b>3.6.</b>
+                    
+                    持续集成与发布
+            
+                </a>
+            
+
+            
+            <ul class="articles">
+                
+    
+        <li class="chapter " data-level="3.6.1" data-path="jenkins-ci-cd.html">
+            
+                <a href="jenkins-ci-cd.html">
+            
+                    
+                        <b>3.6.1.</b>
+                    
+                    使用 Jenkins 进行持续集成与发布
+            
+                </a>
+            
+
+            
+        </li>
+    
+
+            </ul>
+            
+        </li>
+    
+        <li class="chapter " data-level="3.7" data-path="../database/info.html">
+            
+                <a href="../database/info.html">
+            
+                    
+                        <b>3.7.</b>
+                    
+                    数据库高可用
+            
+                </a>
+            
+
+            
+            <ul class="articles">
+                
+    
+        <li class="chapter " data-level="3.7.1" data-path="../database/mysql.html">
+            
+                <a href="../database/mysql.html">
+            
+                    
+                        <b>3.7.1.</b>
+                    
+                    mysql
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="3.7.2" data-path="../database/postgre.html">
+            
+                <a href="../database/postgre.html">
+            
+                    
+                        <b>3.7.2.</b>
+                    
+                    postgre
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="3.7.3" data-path="../database/redis.html">
+            
+                <a href="../database/redis.html">
+            
+                    
+                        <b>3.7.3.</b>
+                    
+                    redis
+            
+                </a>
+            
+
+            
+        </li>
+    
+
+            </ul>
+            
+        </li>
+    
+        <li class="chapter " data-level="3.8" data-path="../filestore/filestoreinfo.html">
+            
+                <a href="../filestore/filestoreinfo.html">
+            
+                    
+                        <b>3.8.</b>
+                    
+                    文件存储
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="3.9" data-path="../devops/environment.html">
+            
+                <a href="../devops/environment.html">
+            
+                    
+                        <b>3.9.</b>
+                    
+                    运维环境
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="3.10" data-path="../devops/duty.html">
+            
+                <a href="../devops/duty.html">
+            
+                    
+                        <b>3.10.</b>
+                    
+                    运维职责
+            
+                </a>
+            
+
+            
+        </li>
+    
+
+    
+
+    <li class="divider"></li>
+
+    <li>
+        <a href="https://www.gitbook.com" target="blank" class="gitbook-link">
+            本书使用 GitBook 发布
+        </a>
+    </li>
+</ul>
+
+
+                </nav>
+            
+        
+    </div>
+
+    <div class="book-body">
+        
+            <div class="body-inner">
+                
+                    
+
+<div class="book-header" role="navigation">
+    
+
+    <!-- Title -->
+    <h1>
+        <i class="fa fa-circle-o-notch fa-spin"></i>
+        <a href=".." >分布式跟踪</a>
+    </h1>
+</div>
+
+
+
+
+                    <div class="page-wrapper" tabindex="-1" role="main">
+                        <div class="page-inner">
+                            
+<div class="search-plus" id="book-search-results">
+    <div class="search-noresults">
+    
+                                <section class="normal markdown-section">
+                                
+                                <h1 id="&#x5206;&#x5E03;&#x5F0F;&#x8FFD;&#x8E2A;">&#x5206;&#x5E03;&#x5F0F;&#x8FFD;&#x8E2A;</h1>
+<p>&#x5F53;&#x6211;&#x5C06;&#x5355;&#x4F53;&#x5E94;&#x7528;&#x62C6;&#x6210;&#x591A;&#x4E2A;&#x5FAE;&#x670D;&#x52A1;&#x4E4B;&#x540E;&#xFF0C;&#x5982;&#x4F55;&#x76D1;&#x63A7;&#x670D;&#x52A1;&#x4E4B;&#x95F4;&#x7684;&#x4F9D;&#x8D56;&#x5173;&#x7CFB;&#x548C;&#x8C03;&#x7528;&#x94FE;&#xFF0C;&#x4EE5;&#x5224;&#x65AD;&#x5E94;&#x7528;&#x5728;&#x54EA;&#x4E2A;&#x670D;&#x52A1;&#x73AF;&#x8282;&#x51FA;&#x4E86;&#x95EE;&#x9898;&#xFF0C;&#x54EA;&#x4E9B;&#x5730;&#x65B9;&#x53EF;&#x4EE5;&#x4F18;&#x5316;&#xFF1F;&#x8FD9;&#x5C31;&#x9700;&#x8981;&#x7528;&#x5230;&#x5206;&#x5E03;&#x5F0F;&#x8FFD;&#x8E2A;&#xFF08;Distributed Tracing&#xFF09;&#x3002;</p>
+<p>CNCF &#x63D0;&#x51FA;&#x4E86;&#x5206;&#x5E03;&#x5F0F;&#x8FFD;&#x8E2A;&#x7684;&#x6807;&#x51C6; <a href="https://opentracing.io/" target="_blank">OpenTracing</a>&#xFF0C;&#x5B83;&#x63D0;&#x4F9B;&#x7528;&#x5382;&#x5546;&#x4E2D;&#x7ACB;&#x7684; API&#xFF0C;&#x5E76;&#x63D0;&#x4F9B; Go&#x3001;Java&#x3001;JavaScript&#x3001;Python&#x3001;Ruby&#x3001;PHP&#x3001;Objective-C&#x3001;C++ &#x548C; C# &#x8FD9;&#x4E5D;&#x79CD;&#x8BED;&#x8A00;&#x7684;&#x5E93;&#x3002;</p>
+<p>&#x540C;&#x65F6; CNCF  &#x4E2D;&#x8FD8;&#x6709;&#x4E2A;&#x7AEF;&#x5230;&#x7AEF;&#x7684;&#x652F;&#x6301; OpenTracing API &#x7684;&#x5206;&#x5E03;&#x5F0F;&#x8FFD;&#x8E2A;&#x9879;&#x76EE; <a href="https://www.jaegertracing.io/" target="_blank">Jaeger</a>&#x3002;</p>
+<footer class="page-footer"><span class="copyright"><a href="http://39.104.110.227:8090/" target="_blank">&#x516C;&#x53F8;&#x4FE1;&#x606F;</a><p></p>Copyright &#xA9; 2017-2020 | Distributed under all right reserved&#xFF0C;powered by Gitbook</span><span class="footer-modification"> Updated at 
+2021-02-05 15:17:53
+</span></footer>
+                                
+                                </section>
+                            
+    </div>
+    <div class="search-results">
+        <div class="has-results">
+            
+            <h1 class="search-results-title"><span class='search-results-count'></span> results matching "<span class='search-query'></span>"</h1>
+            <ul class="search-results-list"></ul>
+            
+        </div>
+        <div class="no-results">
+            
+            <h1 class="search-results-title">No results matching "<span class='search-query'></span>"</h1>
+            
+        </div>
+    </div>
+</div>
+
+                        </div>
+                    </div>
+                
+            </div>
+
+            
+                
+                <a href="using-prometheus-to-monitor-kuberentes-cluster.html" class="navigation navigation-prev " aria-label="Previous page: 使用 Prometheus 监控 kubernetes 集群">
+                    <i class="fa fa-angle-left"></i>
+                </a>
+                
+                
+                <a href="opentracing.html" class="navigation navigation-next " aria-label="Next page: OpenTracing">
+                    <i class="fa fa-angle-right"></i>
+                </a>
+                
+            
+        
+    </div>
+
+    <script>
+        var gitbook = gitbook || [];
+        gitbook.push(function() {
+            gitbook.page.hasChanged({"page":{"title":"分布式跟踪","level":"3.5","depth":1,"next":{"title":"OpenTracing","level":"3.5.1","depth":2,"path":"practice/opentracing.md","ref":"practice/opentracing.md","articles":[]},"previous":{"title":"使用 Prometheus 监控 kubernetes 集群","level":"3.4.1.1","depth":3,"path":"practice/using-prometheus-to-monitor-kuberentes-cluster.md","ref":"practice/using-prometheus-to-monitor-kuberentes-cluster.md","articles":[]},"dir":"ltr"},"config":{"plugins":["github","codesnippet","splitter","page-toc-button","image-captions","editlink","back-to-top-button","-lunr","-search","search-plus","github-buttons@2.1.0","favicon@^0.0.2","tbfed-pagefooter@^0.0.1","3-ba","theme-default","-highlight","prism","prism-themes","sitemap-general","lightbox","ga","alerts","livereload"],"styles":{"ebook":"styles/ebook.css","epub":"styles/epub.css","mobi":"styles/mobi.css","pdf":"styles/pdf.css","print":"styles/print.css","website":"styles/website.css"},"pluginsConfig":{"tbfed-pagefooter":{"copyright":"<a href=http://39.104.110.227:8090/>公司信息</a></p>Copyright © 2017-2020 | Distributed under","modify_label":" Updated at ","modify_format":"YYYY-MM-DD HH:mm:ss"},"prism":{"css":["prism-themes/themes/prism-ghcolors.css"]},"github":{"url":"https://github.com/en-en/DevOps.github.io"},"editlink":{"label":"编辑本页","multilingual":false,"base":"https://github.com/en-en/DevOps.github.io/blob/master/"},"livereload":{},"splitter":{},"codesnippet":{},"sitemap-general":{"prefix":"https://github.com/en-en/DevOps.github.io"},"fontsettings":{"theme":"white","family":"sans","size":2},"favicon":{"shortcut":"favicon.ico","bookmark":"favicon.ico"},"lightbox":{"jquery":true,"sameUuid":false},"page-toc-button":{},"back-to-top-button":{},"prism-themes":{},"alerts":{},"github-buttons":{"repo":"en-en/DevOps.github.io","types":["star"],"size":"small"},"3-ba":{"configuration":"auto","token":"11f7d254cfa4e0ca44b175c66d379ecc"},"ga":{"configuration":"auto","token":"UA-93485976-1"},"sharing":{"facebook":true,"twitter":true,"google":false,"weibo":false,"instapaper":false,"vk":false,"all":["facebook","google","twitter","weibo","instapaper"]},"theme-default":{"showLevel":true,"styles":{"ebook":"styles/ebook.css","epub":"styles/epub.css","mobi":"styles/mobi.css","pdf":"styles/pdf.css","print":"styles/print.css","website":"styles/website.css"}},"search-plus":{},"image-captions":{"caption":"图 _PAGE_LEVEL_._PAGE_IMAGE_NUMBER_：_CAPTION_","variable_name":"_pictures"}},"theme":"default","author":"Wang Gang（王刚）","pdf":{"pageNumbers":true,"fontSize":12,"fontFamily":"Arial","paperSize":"a4","chapterMark":"pagebreak","pageBreaksBefore":"/","margin":{"right":62,"left":62,"top":56,"bottom":56}},"structure":{"langs":"LANGS.md","readme":"README.md","glossary":"GLOSSARY.md","summary":"SUMMARY.md"},"variables":{"_pictures":[{"backlink":"cloud-native/kubernetes-and-cloud-native-app-overview.html#fig2.3.1","level":"2.3","list_caption":"Figure: Cloud native思维导图","alt":"Cloud native思维导图","nro":1,"url":"../images/cloud-native-architecutre-mindnode.jpg","index":1,"caption_template":"图 _PAGE_LEVEL_._PAGE_IMAGE_NUMBER_：_CAPTION_","label":"Cloud native思维导图","attributes":{},"skip":false,"key":"2.3.1"},{"backlink":"cloud-native/kubernetes-and-cloud-native-app-overview.html#fig2.3.2","level":"2.3","list_caption":"Figure: 十二因素应用","alt":"十二因素应用","nro":2,"url":"../images/12-factor-app.png","index":2,"caption_template":"图 _PAGE_LEVEL_._PAGE_IMAGE_NUMBER_：_CAPTION_","label":"十二因素应用","attributes":{},"skip":false,"key":"2.3.2"},{"backlink":"cloud-native/kubernetes-and-cloud-native-app-overview.html#fig2.3.3","level":"2.3","list_caption":"Figure: 使用Jenkins进行持续集成与发布流程图","alt":"使用Jenkins进行持续集成与发布流程图","nro":3,"url":"../images/kubernetes-jenkins-ci-cd.png","index":3,"caption_template":"图 _PAGE_LEVEL_._PAGE_IMAGE_NUMBER_：_CAPTION_","label":"使用Jenkins进行持续集成与发布流程图","attributes":{},"skip":false,"key":"2.3.3"},{"backlink":"cloud-native/kubernetes-and-cloud-native-app-overview.html#fig2.3.4","level":"2.3","list_caption":"Figure: filebeat日志收集架构图","alt":"filebeat日志收集架构图","nro":4,"url":"../images/filebeat-log-collector-arch.png","index":4,"caption_template":"图 _PAGE_LEVEL_._PAGE_IMAGE_NUMBER_：_CAPTION_","label":"filebeat日志收集架构图","attributes":{},"skip":false,"key":"2.3.4"},{"backlink":"cloud-native/kubernetes-and-cloud-native-app-overview.html#fig2.3.5","level":"2.3","list_caption":"Figure: kibana界面","alt":"kibana界面","nro":5,"url":"../images/filebeat-docker-test.jpg","index":5,"caption_template":"图 _PAGE_LEVEL_._PAGE_IMAGE_NUMBER_：_CAPTION_","label":"kibana界面","attributes":{},"skip":false,"key":"2.3.5"},{"backlink":"cloud-native/kubernetes-and-cloud-native-app-overview.html#fig2.3.6","level":"2.3","list_caption":"Figure: Grafana界面示意图1","alt":"Grafana界面示意图1","nro":6,"url":"../images/kubernetes-devops-example-grafana-1.png","index":6,"caption_template":"图 _PAGE_LEVEL_._PAGE_IMAGE_NUMBER_：_CAPTION_","label":"Grafana界面示意图1","attributes":{},"skip":false,"key":"2.3.6"},{"backlink":"cloud-native/kubernetes-and-cloud-native-app-overview.html#fig2.3.7","level":"2.3","list_caption":"Figure: Grafana界面示意图2","alt":"Grafana界面示意图2","nro":7,"url":"../images/kubernetes-devops-example-grafana-2.png","index":7,"caption_template":"图 _PAGE_LEVEL_._PAGE_IMAGE_NUMBER_：_CAPTION_","label":"Grafana界面示意图2","attributes":{},"skip":false,"key":"2.3.7"},{"backlink":"cloud-native/kubernetes-and-cloud-native-app-overview.html#fig2.3.8","level":"2.3","list_caption":"Figure: Grafana界面示意图3","alt":"Grafana界面示意图3","nro":8,"url":"../images/kubernetes-devops-example-grafana-3.png","index":8,"caption_template":"图 _PAGE_LEVEL_._PAGE_IMAGE_NUMBER_：_CAPTION_","label":"Grafana界面示意图3","attributes":{},"skip":false,"key":"2.3.8"},{"backlink":"cloud-native/from-kubernetes-to-cloud-native.html#fig2.4.1","level":"2.4","list_caption":"Figure: Kubernetes架构","alt":"Kubernetes架构","nro":9,"url":"../images/kubernetes-high-level-component-archtecture.jpg","index":1,"caption_template":"图 _PAGE_LEVEL_._PAGE_IMAGE_NUMBER_：_CAPTION_","label":"Kubernetes架构","attributes":{},"skip":false,"key":"2.4.1"},{"backlink":"cloud-native/from-kubernetes-to-cloud-native.html#fig2.4.2","level":"2.4","list_caption":"Figure: Cloud Native Core target","alt":"Cloud Native Core target","nro":10,"url":"../images/cloud-native-core-target.jpg","index":2,"caption_template":"图 _PAGE_LEVEL_._PAGE_IMAGE_NUMBER_：_CAPTION_","label":"Cloud Native Core target","attributes":{},"skip":false,"key":"2.4.2"},{"backlink":"cloud-native/from-kubernetes-to-cloud-native.html#fig2.4.3","level":"2.4","list_caption":"Figure: Cloud Native Features","alt":"Cloud Native Features","nro":11,"url":"https://jimmysong.io/kubernetes-handbook/images/cloud-native-architecutre-mindnode.jpg","index":3,"caption_template":"图 _PAGE_LEVEL_._PAGE_IMAGE_NUMBER_：_CAPTION_","label":"Cloud Native Features","attributes":{},"skip":false,"key":"2.4.3"},{"backlink":"cloud-native/from-kubernetes-to-cloud-native.html#fig2.4.4","level":"2.4","list_caption":"Figure: Building a Cloud Native Architecture with Kubernetes followed 12 factor app","alt":"Building a Cloud Native Architecture with Kubernetes followed 12 factor app","nro":12,"url":"../images/building-cloud-native-architecture-with-kubernetes.png","index":4,"caption_template":"图 _PAGE_LEVEL_._PAGE_IMAGE_NUMBER_：_CAPTION_","label":"Building a Cloud Native Architecture with Kubernetes followed 12 factor app","attributes":{},"skip":false,"key":"2.4.4"},{"backlink":"cloud-native/from-kubernetes-to-cloud-native.html#fig2.4.5","level":"2.4","list_caption":"Figure: Kubernetes solutions","alt":"Kubernetes solutions","nro":13,"url":"../images/Q20210205161131.jpg","index":5,"caption_template":"图 _PAGE_LEVEL_._PAGE_IMAGE_NUMBER_：_CAPTION_","label":"Kubernetes solutions","attributes":{},"skip":false,"key":"2.4.5"},{"backlink":"practice/node-installation.html#fig3.1.7.1","level":"3.1.7","list_caption":"Figure: nginx欢迎页面","alt":"nginx欢迎页面","nro":14,"url":"../images/kubernetes-installation-test-nginx.png","index":1,"caption_template":"图 _PAGE_LEVEL_._PAGE_IMAGE_NUMBER_：_CAPTION_","label":"nginx欢迎页面","attributes":{},"skip":false,"key":"3.1.7.1"},{"backlink":"practice/dashboard-addon-installation.html#fig3.1.9.1","level":"3.1.9","list_caption":"Figure: kubernetes dashboard","alt":"kubernetes dashboard","nro":15,"url":"../images/kubernetes-dashboard-raw.jpg","index":1,"caption_template":"图 _PAGE_LEVEL_._PAGE_IMAGE_NUMBER_：_CAPTION_","label":"kubernetes dashboard","attributes":{},"skip":false,"key":"3.1.9.1"},{"backlink":"practice/dashboard-addon-installation.html#fig3.1.9.2","level":"3.1.9","list_caption":"Figure: V1.6.3版本的dashboard界面","alt":"V1.6.3版本的dashboard界面","nro":16,"url":"../images/dashboard-v163.jpg","index":2,"caption_template":"图 _PAGE_LEVEL_._PAGE_IMAGE_NUMBER_：_CAPTION_","label":"V1.6.3版本的dashboard界面","attributes":{},"skip":false,"key":"3.1.9.2"},{"backlink":"practice/dashboard-addon-installation.html#fig3.1.9.3","level":"3.1.9","list_caption":"Figure: pod无法正常启动","alt":"pod无法正常启动","nro":17,"url":"../images/dashboard-addon-installation001.png","index":3,"caption_template":"图 _PAGE_LEVEL_._PAGE_IMAGE_NUMBER_：_CAPTION_","label":"pod无法正常启动","attributes":{},"skip":false,"key":"3.1.9.3"},{"backlink":"practice/efk-addon-installation.html#fig3.1.10.1","level":"3.1.10","list_caption":"Figure: es-setting","alt":"es-setting","nro":18,"url":"../images/es-setting.png","index":1,"caption_template":"图 _PAGE_LEVEL_._PAGE_IMAGE_NUMBER_：_CAPTION_","label":"es-setting","attributes":{},"skip":false,"key":"3.1.10.1"},{"backlink":"practice/efk-addon-installation.html#fig3.1.10.2","level":"3.1.10","list_caption":"Figure: es-home","alt":"es-home","nro":19,"url":"../images/kubernetes-efk-kibana.jpg","index":2,"caption_template":"图 _PAGE_LEVEL_._PAGE_IMAGE_NUMBER_：_CAPTION_","label":"es-home","attributes":{},"skip":false,"key":"3.1.10.2"},{"backlink":"practice/traefik-ingress-installation.html#fig3.2.1.1","level":"3.2.1","list_caption":"Figure: kubernetes-dashboard","alt":"kubernetes-dashboard","nro":20,"url":"../images/traefik-dashboard.jpg","index":1,"caption_template":"图 _PAGE_LEVEL_._PAGE_IMAGE_NUMBER_：_CAPTION_","label":"kubernetes-dashboard","attributes":{},"skip":false,"key":"3.2.1.1"},{"backlink":"practice/traefik-ingress-installation.html#fig3.2.1.2","level":"3.2.1","list_caption":"Figure: traefik-nginx","alt":"traefik-nginx","nro":21,"url":"../images/traefik-nginx.jpg","index":2,"caption_template":"图 _PAGE_LEVEL_._PAGE_IMAGE_NUMBER_：_CAPTION_","label":"traefik-nginx","attributes":{},"skip":false,"key":"3.2.1.2"},{"backlink":"practice/traefik-ingress-installation.html#fig3.2.1.3","level":"3.2.1","list_caption":"Figure: traefik-guestbook","alt":"traefik-guestbook","nro":22,"url":"../images/traefik-guestbook.jpg","index":3,"caption_template":"图 _PAGE_LEVEL_._PAGE_IMAGE_NUMBER_：_CAPTION_","label":"traefik-guestbook","attributes":{},"skip":false,"key":"3.2.1.3"},{"backlink":"practice/prometheus.html#fig3.4.1.1","level":"3.4.1","list_caption":"Figure: Prometheus 架构图","alt":"Prometheus 架构图","nro":23,"url":"../images/006tNbRwly1fwcgsn11fej311j0mjadw.jpg","index":1,"caption_template":"图 _PAGE_LEVEL_._PAGE_IMAGE_NUMBER_：_CAPTION_","label":"Prometheus 架构图","attributes":{},"skip":false,"key":"3.4.1.1"},{"backlink":"practice/using-prometheus-to-monitor-kuberentes-cluster.html#fig3.4.1.1.1","level":"3.4.1.1","list_caption":"Figure: Grafana页面","alt":"Grafana页面","nro":24,"url":"../images/kubernetes-prometheus-monitoring.jpg","index":1,"caption_template":"图 _PAGE_LEVEL_._PAGE_IMAGE_NUMBER_：_CAPTION_","label":"Grafana页面","attributes":{},"skip":false,"key":"3.4.1.1.1"},{"backlink":"practice/opentracing.html#fig3.5.1.1","level":"3.5.1","list_caption":"Figure: Jaeger UI","alt":"Jaeger UI","nro":25,"url":"../images/006tNbRwly1fwjg48fh7xj31kw0wedrg.jpg","index":1,"caption_template":"图 _PAGE_LEVEL_._PAGE_IMAGE_NUMBER_：_CAPTION_","label":"Jaeger UI","attributes":{},"skip":false,"key":"3.5.1.1"},{"backlink":"practice/opentracing.html#fig3.5.1.2","level":"3.5.1","list_caption":"Figure: Chrome Inspector","alt":"Chrome Inspector","nro":26,"url":"../images/006tNbRwly1fwjkfbvfluj30y70hf0y9.jpg","index":2,"caption_template":"图 _PAGE_LEVEL_._PAGE_IMAGE_NUMBER_：_CAPTION_","label":"Chrome Inspector","attributes":{},"skip":false,"key":"3.5.1.2"},{"backlink":"practice/ci-cd.html#fig3.6.1","level":"3.6","list_caption":"Figure: CI/CD with Kubernetes","alt":"CI/CD with Kubernetes","nro":27,"url":"../images/00704eQkgy1fsaxszh01vj30da0j2jvn.jpg","index":1,"caption_template":"图 _PAGE_LEVEL_._PAGE_IMAGE_NUMBER_：_CAPTION_","label":"CI/CD with Kubernetes","attributes":{},"skip":false,"key":"3.6.1"},{"backlink":"practice/ci-cd.html#fig3.6.2","level":"3.6","list_caption":"Figure: Kubernetes改变了应用的基础架构","alt":"Kubernetes改变了应用的基础架构","nro":28,"url":"../images/00704eQkgy1fsayashxz3j31c00w6aed.jpg","index":2,"caption_template":"图 _PAGE_LEVEL_._PAGE_IMAGE_NUMBER_：_CAPTION_","label":"Kubernetes改变了应用的基础架构","attributes":{},"skip":false,"key":"3.6.2"},{"backlink":"practice/ci-cd.html#fig3.6.3","level":"3.6","list_caption":"Figure: Kubernetes中的CI/CD","alt":"Kubernetes中的CI/CD","nro":29,"url":"../images/00704eQkgy1fsayfzk3ezj31bu0tkdky.jpg","index":3,"caption_template":"图 _PAGE_LEVEL_._PAGE_IMAGE_NUMBER_：_CAPTION_","label":"Kubernetes中的CI/CD","attributes":{},"skip":false,"key":"3.6.3"},{"backlink":"practice/jenkins-ci-cd.html#fig3.6.1.1","level":"3.6.1","list_caption":"Figure: 基于Jenkins的持续集成与发布","alt":"基于Jenkins的持续集成与发布","nro":30,"url":"../images/kubernetes-jenkins-ci-cd.png","index":1,"caption_template":"图 _PAGE_LEVEL_._PAGE_IMAGE_NUMBER_：_CAPTION_","label":"基于Jenkins的持续集成与发布","attributes":{},"skip":false,"key":"3.6.1.1"},{"backlink":"devops/environment.html#fig3.9.1","level":"3.9","list_caption":"Figure: 自动运维流程","alt":"自动运维流程","nro":31,"url":"../images/devops.jpg","index":1,"caption_template":"图 _PAGE_LEVEL_._PAGE_IMAGE_NUMBER_：_CAPTION_","label":"自动运维流程","attributes":{},"skip":false,"key":"3.9.1"}]},"title":"自动运维(DevOps)","language":"zh-hans","links":{"sidebar":{"回到主页":"https://en-en.github.io/DevOps.github.io/","资源详情":"https://github.com/en-en/DevOps.github.io/"}},"gitbook":"*","description":"描述公司运维技术选型，以及技术实现具体方案细节"},"file":{"path":"practice/distributed-tracing.md","mtime":"2021-02-05T07:17:53.357Z","type":"markdown"},"gitbook":{"version":"3.2.3","time":"2021-02-05T09:03:51.956Z"},"basePath":"..","book":{"language":""}});
+        });
+    </script>
+</div>
+
+        
+    <script src="../gitbook/gitbook.js"></script>
+    <script src="../gitbook/theme.js"></script>
+    
+        
+        <script src="../gitbook/gitbook-plugin-github/plugin.js"></script>
+        
+    
+        
+        <script src="../gitbook/gitbook-plugin-splitter/splitter.js"></script>
+        
+    
+        
+        <script src="../gitbook/gitbook-plugin-page-toc-button/plugin.js"></script>
+        
+    
+        
+        <script src="../gitbook/gitbook-plugin-editlink/plugin.js"></script>
+        
+    
+        
+        <script src="../gitbook/gitbook-plugin-back-to-top-button/plugin.js"></script>
+        
+    
+        
+        <script src="../gitbook/gitbook-plugin-search-plus/jquery.mark.min.js"></script>
+        
+    
+        
+        <script src="../gitbook/gitbook-plugin-search-plus/search.js"></script>
+        
+    
+        
+        <script src="../gitbook/gitbook-plugin-github-buttons/plugin.js"></script>
+        
+    
+        
+        <script src="../gitbook/gitbook-plugin-3-ba/plugin.js"></script>
+        
+    
+        
+        <script src="../gitbook/gitbook-plugin-lightbox/js/lightbox.min.js"></script>
+        
+    
+        
+        <script src="../gitbook/gitbook-plugin-ga/plugin.js"></script>
+        
+    
+        
+        <script src="../gitbook/gitbook-plugin-alerts/plugin.js"></script>
+        
+    
+        
+        <script src="../gitbook/gitbook-plugin-livereload/plugin.js"></script>
+        
+    
+        
+        <script src="../gitbook/gitbook-plugin-sharing/buttons.js"></script>
+        
+    
+        
+        <script src="../gitbook/gitbook-plugin-fontsettings/fontsettings.js"></script>
+        
+    
+
+    </body>
+</html>
+

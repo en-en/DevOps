@@ -1,16 +1,7 @@
 # 使用Prometheus监控kubernetes集群
 
-我们使用 Giantswarm 开源的 [kubernetes-promethues](https://github.com/giantswarm/kubernetes-prometheus) 来监控 kubernetes 集群，所有的 YAML 文件可以在 [../manifests/prometheus](https://github.com/rootsongjc/kubernetes-handbook/blob/master/manifests/prometheus) 目录下找到。
+我们使用 Giantswarm 开源的 [kubernetes-promethues](https://github.com/giantswarm/kubernetes-prometheus) 来监控 kubernetes 集群
 
-需要用到的镜像有：
-
--  harbor-001.jimmysong.io/library/prometheus-alertmanager:v0.7.1
--  harbor-001.jimmysong.io/library/grafana:4.2.0
--  harbor-001.jimmysong.io/library/giantswarm-tiny-tools:latest
--  harbor-001.jimmysong.io/library/prom-prometheus:v1.7.0
--  harbor-001.jimmysong.io/library/kube-state-metrics:v1.0.1
--  harbor-001.jimmysong.io/library/dockermuenster-caddy:0.9.3
--  harbor-001.jimmysong.io/library/prom-node-exporter:v0.14.0
 
 **注**：所有镜像都是从官方镜像仓库下载下。
 
@@ -113,8 +104,3 @@ curl -sX GET -H "Authorization:bearer `cat /var/run/secrets/kubernetes.io/servic
 ```
 
 不需要指定 csr 文件，只需要 token 即可。
-
-## 参考
-
-- [Kubernetes Setup for Prometheus and Grafana](https://github.com/giantswarm/kubernetes-prometheus)
-- [RBAC——基于角色的访问控制](../guide/rbac.md)

@@ -1,6 +1,6 @@
 # 利用NFS动态提供Kubernetes后端存储卷
-本文翻译自nfs-client-provisioner的[说明文档](https://github.com/kubernetes-incubator/external-storage/tree/master/nfs-client)，本文将介绍使用nfs-client-provisioner这个应用，利用NFS Server给Kubernetes作为持久存储的后端，并且动态提供PV。前提条件是有已经安装好的NFS服务器，并且NFS服务器与Kubernetes的Slave节点都能网络连通。
-所有下文用到的文件来自于`git clone  https://github.com/kubernetes-incubator/external-storage.git`的nfs-client目录。
+使用nfs-client-provisioner这个应用，利用NFS Server给Kubernetes作为持久存储的后端，并且动态提供PV。前提条件是有已经安装好的NFS服务器，并且NFS服务器与Kubernetes的Slave节点都能网络连通。
+
 ## nfs-client-provisioner
 nfs-client-provisioner 是一个Kubernetes的简易NFS的外部provisioner，本身不提供NFS，需要现有的NFS服务器提供存储
 

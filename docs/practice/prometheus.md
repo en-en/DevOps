@@ -23,7 +23,7 @@
 
 ## 基础架构
 
-一图胜千言，先来张官方的架构图：
+官方的架构图：
 
 ![Prometheus 架构图](../images/006tNbRwly1fwcgsn11fej311j0mjadw.jpg)
 
@@ -42,7 +42,3 @@
 - Prometheus 的数据是基于时序的 float64 的值，如果你的数据值还有其他类型，Prometheus 则无法满足。
 - Prometheus 不适合做审计计费，因为它的数据是按一定时间采集的，关注的更多是系统的运行瞬时状态以及趋势，即使有少量数据没有采集也能容忍，但是审计计费需要记录每个请求，并且数据长期存储，这个和 Prometheus 无法满足，可能需要采用专门的审计系统。
 
-## 参考
-
-- [Prometheus practice - github.com](https://github.com/songjiayang/prometheus_practice/)
-- [Prometheus overview - prometheus.io](https://prometheus.io/docs/introduction/overview/)

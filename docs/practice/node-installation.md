@@ -2,8 +2,8 @@
 
 Kubernetes node节点包含如下组件：
 
-+ Flanneld：参考我之前写的文章[Kubernetes基于Flannel的网络配置](https://jimmysong.io/posts/kubernetes-network-config/)，之前没有配置TLS，现在需要在service配置文件中增加TLS配置，安装过程请参考上一节[安装flannel网络插件](flannel-installation.md)。
-+ Docker1.12.5：docker的安装很简单，这里也不说了，但是需要注意docker的配置。
++ Flanneld：[安装flannel网络插件](flannel-installation.md)。
++ Docker1.12.5。
 + kubelet：直接用二进制文件安装
 + kube-proxy：直接用二进制文件安装
 
@@ -18,8 +18,6 @@ Kubernetes node节点包含如下组件：
 
 ## 目录和文件
 
-我们再检查一下三个节点上，经过前几步操作我们已经创建了如下的证书和配置文件。
-
 ``` bash
 $ ls /etc/kubernetes/ssl
 admin-key.pem  admin.pem  ca-key.pem  ca.pem  kube-proxy-key.pem  kube-proxy.pem  kubernetes-key.pem  kubernetes.pem
@@ -28,14 +26,6 @@ apiserver  bootstrap.kubeconfig  config  controller-manager  kubelet  kube-proxy
 ```
 
 ## 配置Docker
-
-> 如果您使用yum的方式安装的flannel则不需要执行mk-docker-opts.sh文件这一步，参考Flannel官方文档中的[Docker Integration](https://github.com/coreos/flannel/blob/master/Documentation/running.md)。
-
-如果你不是使用yum安装的flannel，那么需要下载flannel github release中的tar包，解压后会获得一个**mk-docker-opts.sh**文件，到[flannel release](https://github.com/coreos/flannel/releases)页面下载对应版本的安装包，该脚本见[mk-docker-opts.sh](https://github.com/rootsongjc/kubernetes-handbook/tree/master/tools/flannel/mk-docker-opts.sh)，因为我们使用yum安装所以不需要执行这一步。
-
-这个文件是用来`Generate Docker daemon options based on flannel env file`。
-
-使用`systemctl`命令启动flanneld后，会自动执行`./mk-docker-opts.sh -i`生成如下两个文件环境变量文件：
 
 - /run/flannel/subnet.env
 
@@ -79,7 +69,7 @@ EnvironmentFile=-/run/flannel/subnet.env
 
 这两个文件是`mk-docker-opts.sh`脚本生成环境变量文件默认的保存位置，docker启动的时候需要加载这几个配置文件才可以加入到flannel创建的虚拟网络里。
 
-所以不论您使用何种方式安装的flannel，将以下配置加入到`docker.service`中可确保万无一失。
+将以下配置加入到`docker.service`中可确保万无一失。
 
 ```ini
 EnvironmentFile=-/run/flannel/docker
@@ -91,7 +81,6 @@ EnvironmentFile=-/etc/sysconfig/docker-network
 EnvironmentFile=-/run/docker_opts.env
 ```
 
-请参考[docker.service](https://github.com/rootsongjc/kubernetes-handbook/blob/master/systemd/docker.service)中的配置。
 
 ### 启动docker
 
@@ -404,7 +393,3 @@ Commercial support is available at
 - 172.20.0.115:32724
 
 ![nginx欢迎页面](../images/kubernetes-installation-test-nginx.png)
-
-## 参考
-
-- [Kubelet 的认证授权](../guide/kubelet-authentication-authorization.md)

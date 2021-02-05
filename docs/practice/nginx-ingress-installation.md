@@ -12,7 +12,6 @@
 - gcr.io/google_containers/nginx-ingress-controller:0.9.0-beta.15
 - gcr.io/google_containers/defaultbackend:1.3
 
-所有的安装时需要的配置保存在[../manifests/nginx-ingress](https://github.com/rootsongjc/kubernetes-handbook/blob/master/manifests/nginx-ingress)目录下。
 
 ## 步骤详解
 
@@ -166,8 +165,3 @@ helm delete --purge nginx-ingress
 
 使用`--purge`参数可以彻底删除release不留下记录，否则下一次部署的时候不能使用重名的release。
 
-## 参考
-
-- [Ingress-nginx github](https://github.com/kubernetes/ingress-nginx)
-- [Nginx chart configuration](https://github.com/kubernetes/charts/tree/master/stable/nginx-ingress)
-- [使用Helm管理kubernetes应用](helm.md)
