@@ -9,7 +9,7 @@
 * [云原生（Cloud Native）的定义](cloud-native/cloud-native-definition.md)
 * [云原生的设计](cloud-native/cloud-native-philosophy.md)
 * [Kubernetes 与云原生应用概览](cloud-native/kubernetes-and-cloud-native-app-overview.md)
-* [运维环境](cloud-native/from-kubernetes-to-cloud-native.md)
+* [部署运维环境方案调研结果](cloud-native/from-kubernetes-to-cloud-native.md)
 
 ## 部署实践
 
@@ -45,3 +45,6 @@
 ## 运维工作描述
 * [运维环境](devops/environment.md)
 * [运维职责](devops/duty.md)
+## 云原生应用部署运维
+* [基础手册](cloud-native/handbook.md)
+
