@@ -42,9 +42,13 @@
   * [postgre](database/postgre.md)
   * [redis](database/redis.md)
 * [文件存储](filestore/filestoreinfo.md)
+
 ## 运维工作描述
+
 * [运维环境](devops/environment.md)
 * [运维职责](devops/duty.md)
+
 ## 云原生应用部署运维
+
 * [基础手册](cloud-native/handbook.md)
 
