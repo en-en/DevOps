@@ -36,4 +36,5 @@
 <url> <loc>https://github.com/en-en/filestore/filestoreinfo.html</loc> <changefreq>weekly</changefreq> <priority>0.5</priority> </url>
 <url> <loc>https://github.com/en-en/devops/environment.html</loc> <changefreq>weekly</changefreq> <priority>0.5</priority> </url>
 <url> <loc>https://github.com/en-en/devops/duty.html</loc> <changefreq>weekly</changefreq> <priority>0.5</priority> </url>
+<url> <loc>https://github.com/en-en/cloud-native/handbook.html</loc> <changefreq>weekly</changefreq> <priority>0.5</priority> </url>
 </urlset>

@@ -63,4 +63,4 @@ CNCF（云原生计算基金会）给出了云原生应用的三大特征：
 
 Kubernetes调研方案选择。
 
-![Kubernetes solutions](../images/Q20210205161131.jpg)
+![Kubernetes solutions](../images/20210207101715.jpg)
