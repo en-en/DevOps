@@ -52,3 +52,7 @@
 
 * [基础手册](cloud-native/handbook.md)
 
+## 运维信息
+
+* [总体方案介绍](devops/outline.md)
+  
