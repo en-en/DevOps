@@ -19,7 +19,7 @@
 | traefik|1.7.28| 一个云原生的新型的 HTTP 反向代理、负载均衡软件。
  
 ## 基础环境配置
- 1. 参照文档在[CentOS上部署kubernetes集群](https://en-en.github.io/DevOps.github.io/practice/install-kubernetes-on-centos.html),配置完成构建快照，这里为基础软件环境。
+ 参照文档安装部署手册，这里为基础软件环境。
 
 ## 准备工作
 

@@ -859,8 +859,262 @@
     
                                 <section class="normal markdown-section">
                                 
-                                <footer class="page-footer"><span class="copyright"><a href="http://39.104.110.227:8090/" target="_blank">&#x516C;&#x53F8;&#x4FE1;&#x606F;</a><p></p>Copyright &#xA9; 2017-2020 | Distributed under all right reserved&#xFF0C;powered by Gitbook</span><span class="footer-modification"> Updated at 
-2021-02-09 16:59:42
+                                <h2 id="&#x54E8;&#x5175;&#x6A21;&#x5F0F;">&#x54E8;&#x5175;&#x6A21;&#x5F0F;</h2>
+<figure id="fig3.7.3.1"><a href="../images/redis.png" data-lightbox="8ab3f056-1c19-4be9-b21b-9799c2e1bfd1" data-title="Cloud Native Core target"><img src="../images/redis.png" alt="Cloud Native Core target"></a><figcaption>&#x56FE; 3.7.3.1&#xFF1A;Cloud Native Core target</figcaption></figure>
+<h1 id="&#x5B9E;&#x73B0;&#x54E8;&#x5175;&#x6A21;&#x5F0F;">&#x5B9E;&#x73B0;&#x54E8;&#x5175;&#x6A21;&#x5F0F;</h1>
+<p>&#x5F53;&#x4E3B;&#x5B95;&#x673A;&#x4E86;&#x4ECE;&#x63A5;&#x66FF;&#x4E3B;&#x6210;&#x4E3A;&#x65B0;&#x7684;&#x4E3B;&#xFF0C;&#x5B95;&#x673A;&#x7684;&#x4E3B;&#x542F;&#x52A8;&#x540E;&#x81EA;&#x52A8;&#x53D8;&#x6210;&#x4E86;&#x4ECE;&#xFF0C;&#x5176;&#x5B9E;&#x5B83;&#x548C;Mysql&#x7684;&#x53CC;&#x4E3B;&#x6A21;&#x5F0F;&#x662F;&#x4E00;&#x6837;&#x7684;&#x4E92;&#x4E3A;&#x4E3B;&#x4ECE;&#xFF1B;redis&#x54E8;&#x5175;&#x9700;&#x8981;&#x7528;&#x5230;redis-sentinel&#x7A0B;&#x5E8F;&#x548C;sentinel.conf&#x914D;&#x7F6E;&#x6587;&#x4EF6;&#x3002;</p>
+<p>mkdir -p /usr/local/redis
+mkdir -p /usr/local/redis/6379
+mkdir -p /usr/local/redis/6380
+mkdir -p /usr/local/redis/redis_cluster</p>
+<p>&#x4E3B;&#x914D;&#x7F6E;</p>
+<p> vim redis_6379.conf</p>
+<p>&#x590D;&#x5236;&#x4EE3;&#x7801;
+daemonize yes
+pidfile /usr/local/redis/6379/redis_6379.pid
+port 6379
+tcp-backlog 128
+timeout 0
+tcp-keepalive 0
+loglevel notice
+logfile &quot;&quot;
+databases 16
+save 900 1    ###save
+save 300 10
+save 60 10000
+stop-writes-on-bgsave-error yes
+rdbcompression yes
+rdbchecksum yes
+dbfilename dump.rdb   ###dbfile
+dir &quot;/usr/local/redis/6379&quot;
+masterauth &quot;123456&quot;
+requirepass &quot;123456&quot;
+slave-serve-stale-data yes
+slave-read-only yes
+repl-diskless-sync no
+repl-diskless-sync-delay 5
+repl-disable-tcp-nodelay no
+slave-priority 100
+appendonly yes
+appendfilename &quot;appendonly.aof&quot;
+appendfsync everysec
+no-appendfsync-on-rewrite no
+auto-aof-rewrite-percentage 100
+auto-aof-rewrite-min-size 64mb
+aof-load-truncated yes
+lua-time-limit 5000
+slowlog-log-slower-than 10000
+slowlog-max-len 128
+latency-monitor-threshold 0
+notify-keyspace-events &quot;&quot;
+hash-max-ziplist-entries 512
+hash-max-ziplist-value 64
+list-max-ziplist-entries 512
+list-max-ziplist-value 64
+set-max-intset-entries 512
+zset-max-ziplist-entries 128
+zset-max-ziplist-value 64
+hll-sparse-max-bytes 3000
+activerehashing yes
+client-output-buffer-limit normal 0 0 0
+client-output-buffer-limit slave 256mb 64mb 60
+client-output-buffer-limit pubsub 32mb 8mb 60
+hz 10
+aof-rewrite-incremental-fsync yes</p>
+<p> vim sentinel_1.conf</p>
+<p> &#x54E8;&#x5175;&#x6587;&#x4EF6;&#x914D;&#x7F6E;</p>
+<p>port 6000
+dir &quot;/usr/local/redis/sentinel&quot;</p>
+<h2 id="&#x5B88;&#x62A4;&#x8FDB;&#x7A0B;&#x6A21;&#x5F0F;">&#x5B88;&#x62A4;&#x8FDB;&#x7A0B;&#x6A21;&#x5F0F;</h2>
+<p>daemonize yesprotected-mode nologfile &quot;/usr/local/sentinel/sentinel.log&quot;</p>
+<p>&#x4ECE;&#x914D;&#x7F6E;
+ vim redis_6380.conf</p>
+<p> daemonize yes
+pidfile &quot;/usr/local/redis/6380/redis_6380.pid&quot; 
+port 6380
+tcp-backlog 128
+timeout 0
+tcp-keepalive 0
+loglevel notice
+logfile &quot;&quot;
+databases 16
+save 900 1
+save 300 10
+save 60 10000
+stop-writes-on-bgsave-error yes
+rdbcompression yes
+rdbchecksum yes
+dbfilename &quot;dump.rdb&quot;
+dir &quot;/usr/local/redis/6380&quot;
+masterauth &quot;123456&quot;
+requirepass &quot;123456&quot;
+slave-serve-stale-data yes
+slave-read-only yes
+repl-diskless-sync no
+repl-diskless-sync-delay 5
+repl-disable-tcp-nodelay no
+slave-priority 100
+appendonly yes
+appendfilename &quot;appendonly.aof&quot;
+appendfsync everysec
+no-appendfsync-on-rewrite no
+auto-aof-rewrite-percentage 100
+auto-aof-rewrite-min-size 64mb
+aof-load-truncated yes
+lua-time-limit 5000
+slowlog-log-slower-than 10000
+slowlog-max-len 128
+latency-monitor-threshold 0
+notify-keyspace-events &quot;&quot;
+hash-max-ziplist-entries 512
+hash-max-ziplist-value 64
+list-max-ziplist-entries 512
+list-max-ziplist-value 64
+set-max-intset-entries 512
+zset-max-ziplist-entries 128
+zset-max-ziplist-value 64
+hll-sparse-max-bytes 3000
+activerehashing yes
+client-output-buffer-limit normal 0 0 0
+client-output-buffer-limit slave 256mb 64mb 60
+client-output-buffer-limit pubsub 32mb 8mb 60
+hz 10
+aof-rewrite-incremental-fsync yes</p>
+<p>vim sentinel_2.conf</p>
+<h1 id="sentinel&#x7AEF;&#x53E3;">sentinel&#x7AEF;&#x53E3;</h1>
+<p>port 6000</p>
+<h1 id="&#x5DE5;&#x4F5C;&#x8DEF;&#x5F84;&#xFF0C;&#x6CE8;&#x610F;&#x8DEF;&#x5F84;&#x4E0D;&#x8981;&#x548C;&#x4E3B;&#x91CD;&#x590D;">&#x5DE5;&#x4F5C;&#x8DEF;&#x5F84;&#xFF0C;&#x6CE8;&#x610F;&#x8DEF;&#x5F84;&#x4E0D;&#x8981;&#x548C;&#x4E3B;&#x91CD;&#x590D;</h1>
+<p>dir &quot;/usr/local/sentinel&quot;</p>
+<h1 id="&#x5B88;&#x62A4;&#x8FDB;&#x7A0B;&#x6A21;&#x5F0F;">&#x5B88;&#x62A4;&#x8FDB;&#x7A0B;&#x6A21;&#x5F0F;</h1>
+<p>daemonize yesprotected-mode no</p>
+<h1 id="&#x6307;&#x660E;&#x65E5;&#x5FD7;&#x6587;&#x4EF6;&#x540D;">&#x6307;&#x660E;&#x65E5;&#x5FD7;&#x6587;&#x4EF6;&#x540D;</h1>
+<p>logfile &quot;/usr/local/sentinel/sentinel.log&quot;</p>
+<p>&#x6CE8;&#x610F;&#xFF1A;</p>
+<p>1.&#x5E94;&#x7528;&#x7A0B;&#x5E8F;&#x8FDE;&#x63A5;&#x5230;&#x54E8;&#x5175;&#x7AEF;&#x53E3;&#xFF0C;&#x901A;&#x8FC7;&#x6307;&#x5B9A;&#x4E0D;&#x540C;&#x7684;master&#x540D;&#x79F0;&#x8FDE;&#x63A5;&#x5230;&#x5177;&#x4F53;&#x7684;&#x4E3B;&#x526F;&#x672C;&#x3002;</p>
+<p>2.&#x54E8;&#x5175;&#x914D;&#x7F6E;&#x6587;&#x4EF6;&#x4E2D;&#x53EA;&#x9700;&#x8981;&#x914D;&#x7F6E;&#x4E3B;&#x4ECE;&#x590D;&#x5236;&#x4E2D;&#x7684;&#x4E3B;&#x526F;&#x672C;ip&#x548C;&#x7AEF;&#x53E3;&#x5373;&#x53EF;&#xFF0C;&#x5F53;&#x4E3B;&#x4ECE;&#x8FDB;&#x884C;&#x5207;&#x6362;&#x65F6;&#x54E8;&#x5175;&#x4F1A;&#x81EA;&#x52A8;&#x4FEE;&#x6539;&#x54E8;&#x5175;&#x914D;&#x7F6E;&#x6587;&#x4EF6;&#x4E2D;&#x7684;&#x4E3B;&#x526F;&#x672C;ip&#x4E3A;&#x65B0;&#x5728;&#x4E3B;&#x526F;&#x672C;ip&#x3002;</p>
+<p>3.&#x4E00;&#x4E2A;&#x54E8;&#x5175;&#x914D;&#x7F6E;&#x6587;&#x4EF6;&#x4E2D;&#x53EF;&#x4EE5;&#x540C;&#x65F6;&#x914D;&#x7F6E;&#x76D1;&#x63A7;&#x591A;&#x4E2A;&#x4E3B;&#x4ECE;&#x590D;&#x5236;&#x3002;</p>
+<p>4.&#x5355;&#x4E2A;&#x54E8;&#x5175;&#x5C31;&#x53EF;&#x4EE5;&#x7528;&#x6765;&#x8FDB;&#x884C;&#x4E3B;&#x4ECE;&#x6545;&#x969C;&#x76D1;&#x63A7;&#xFF0C;&#x4F46;&#x662F;&#x5982;&#x679C;&#x53EA;&#x6709;&#x4E00;&#x4E2A;sentinel&#x8FDB;&#x7A0B;&#xFF0C;&#x5982;&#x679C;&#x8FD9;&#x4E2A;&#x8FDB;&#x7A0B;&#x8FD0;&#x884C;&#x51FA;&#x9519;&#xFF0C;&#x6216;&#x8005;&#x662F;&#x7F51;&#x7EDC;&#x5835;&#x585E;&#xFF0C;&#x90A3;&#x4E48;&#x5C06;&#x65E0;&#x6CD5;&#x5B9E;&#x73B0;redis&#x96C6;&#x7FA4;&#x7684;&#x4E3B;&#x5907;&#x5207;&#x6362;&#xFF08;&#x5355;&#x70B9;&#x95EE;&#x9898;&#xFF09;;<quorum>&#x8FD9;&#x4E2A;2&#x4EE3;&#x8868;&#x6295;&#x7968;&#x6570;&#xFF0C;&#x5F53;2&#x4E2A;sentinel&#x8BA4;&#x4E3A;&#x4E00;&#x4E2A;master&#x5DF2;&#x7ECF;&#x4E0D;&#x53EF;&#x7528;&#x4E86;&#x4EE5;&#x540E;&#xFF0C;&#x5C06;&#x4F1A;&#x89E6;&#x53D1;failover&#xFF0C;&#x624D;&#x80FD;&#x771F;&#x6B63;&#x8BA4;&#x4E3A;&#x8BE5;master&#x5DF2;&#x7ECF;&#x4E0D;&#x53EF;&#x7528;&#x4E86;&#x3002;&#xFF08;sentinel&#x96C6;&#x7FA4;&#x4E2D;&#x5404;&#x4E2A;sentinel&#x4E5F;&#x6709;&#x4E92;&#x76F8;&#x901A;&#x4FE1;&#xFF0C;&#x901A;&#x8FC7;gossip&#x534F;&#x8BAE;&#xFF09;;&#x6240;&#x4EE5;&#x5408;&#x7406;&#x7684;&#x914D;&#x7F6E;&#x5E94;&#x8BE5;&#x662F;&#x540C;&#x65F6;&#x542F;&#x52A8;&#x591A;&#x4E2A;&#x54E8;&#x5175;&#x8FDB;&#x7A0B;,&#x5E76;&#x4E14;&#x6700;&#x597D;&#x662F;&#x5728;&#x4E0D;&#x540C;&#x7684;&#x670D;&#x52A1;&#x5668;&#x4E2D;&#x542F;&#x52A8;&#x3002;</quorum></p>
+<p>5.&#x6CE8;&#x610F;mymaster&#x7684;&#x9700;&#x8981;&#x5728;&#x6574;&#x4E2A;&#x7F51;&#x7EDC;&#x73AF;&#x5883;&#x90FD;&#x662F;&#x552F;&#x4E00;&#x7684;&#xFF0C;&#x54E8;&#x5175;&#x4E4B;&#x95F4;&#x4F1A;&#x81EA;&#x52A8;&#x901A;&#x8FC7;mastername&#x53BB;&#x5EFA;&#x7ACB;&#x5173;&#x8054;&#x5173;&#x7CFB;&#x53EA;&#x8981;&#x7F51;&#x7EDC;&#x73AF;&#x5883;&#x662F;&#x76F8;&#x901A;&#x7684;&#x3002;</p>
+<p>&#x542F;&#x52A8;redis</p>
+<p>1.&#x4E3B;&#x4ECE;&#x90FD;&#x8981;&#x542F;&#x52A8;</p>
+<p>src/redis-server redis.conf
+2.&#x767B;&#x5165;&#x5230;6380&#x5EFA;&#x7ACB;&#x4E3B;&#x4ECE;&#x5173;&#x7CFB;</p>
+<p>redis-cli -p 6380
+slaveof 192.168.137.40 6379</p>
+<p>&#x914D;&#x7F6E;&#x54E8;&#x5175;</p>
+<p>&#x4E3B;&#x4ECE;&#x4E24;&#x4E2A;&#x54E8;&#x5175;&#x90FD;&#x8981;&#x542F;&#x52A8;&#xFF0C;&#x8FD8;&#x53EF;&#x4EE5;&#x901A;&#x8FC7;redis-server&#x65B9;&#x5F0F;&#x542F;&#x52A8;&#xFF0C;&#x4F8B;&#x5982;&#x201C;redis-server sentinel.conf --sentinel&#x201D;</p>
+<p>1.&#x542F;&#x52A8;&#x54E8;&#x5175;</p>
+<p>src/redis-sentinel sentinel.conf
+2.&#x767B;&#x5165;&#x54E8;&#x5175;(&#x4E24;&#x53F0;&#x54E8;&#x5175;&#x90FD;&#x9700;&#x8981;&#x767B;&#x5165;&#x6267;&#x884C;)&#xFF0C;&#x6DFB;&#x52A0;&#x4E3B;&#x4ECE;&#x76D1;&#x63A7;&#x4FE1;&#x606F;</p>
+<p>redis-cli -p 6000</p>
+<p>sentinel monitor mymaster 192.168.137.40 6379 2
+sentinel set mymaster down-after-milliseconds 5000
+sentinel set mymaster failover-timeout 15000
+sentinel set mymaster auth-pass 123456</p>
+<p>&#x542F;&#x52A8;&#x62A5;&#x9519;&#x5904;&#x7406;</p>
+<p>&#x9519;&#x8BEF;1&#xFF1A;</p>
+<p>WARNING overcommit_memory is set to 0! Background save may fail under low memory condition. To fix this issue add &apos;vm.overcommit_memory = 1&apos; to /etc/sysctl.conf and then reboot or run the command &apos;sysctl vm.overcommit_memory=1&apos; for this to take effect.</p>
+<p>&#x4E24;&#x4E2A;&#x89E3;&#x51B3;&#x65B9;&#x6CD5;(overcommit_memory)</p>
+<ol>
+<li><p>echo &quot;vm.overcommit_memory=1&quot; &gt; /etc/sysctl.conf  &#x6216; vi /etcsysctl.conf , &#x7136;&#x540E;reboot&#x91CD;&#x542F;&#x673A;&#x5668;</p>
+</li>
+<li><p>echo 1 &gt; /proc/sys/vm/overcommit_memory  &#x4E0D;&#x9700;&#x8981;&#x542F;&#x673A;&#x5668;&#x5C31;&#x751F;&#x6548;
+overcommit_memory&#x53C2;&#x6570;&#x8BF4;&#x660E;&#xFF1A;
+&#x8BBE;&#x7F6E;&#x5185;&#x5B58;&#x5206;&#x914D;&#x7B56;&#x7565;&#xFF08;&#x53EF;&#x9009;&#xFF0C;&#x6839;&#x636E;&#x670D;&#x52A1;&#x5668;&#x7684;&#x5B9E;&#x9645;&#x60C5;&#x51B5;&#x8FDB;&#x884C;&#x8BBE;&#x7F6E;&#xFF09;
+/proc/sys/vm/overcommit_memory
+&#x53EF;&#x9009;&#x503C;&#xFF1A;0&#x3001;1&#x3001;2&#x3002;
+0&#xFF0C; &#x8868;&#x793A;&#x5185;&#x6838;&#x5C06;&#x68C0;&#x67E5;&#x662F;&#x5426;&#x6709;&#x8DB3;&#x591F;&#x7684;&#x53EF;&#x7528;&#x5185;&#x5B58;&#x4F9B;&#x5E94;&#x7528;&#x8FDB;&#x7A0B;&#x4F7F;&#x7528;&#xFF1B;&#x5982;&#x679C;&#x6709;&#x8DB3;&#x591F;&#x7684;&#x53EF;&#x7528;&#x5185;&#x5B58;&#xFF0C;&#x5185;&#x5B58;&#x7533;&#x8BF7;&#x5141;&#x8BB8;&#xFF1B;&#x5426;&#x5219;&#xFF0C;&#x5185;&#x5B58;&#x7533;&#x8BF7;&#x5931;&#x8D25;&#xFF0C;&#x5E76;&#x628A;&#x9519;&#x8BEF;&#x8FD4;&#x56DE;&#x7ED9;&#x5E94;&#x7528;&#x8FDB;&#x7A0B;&#x3002;
+1&#xFF0C; &#x8868;&#x793A;&#x5185;&#x6838;&#x5141;&#x8BB8;&#x5206;&#x914D;&#x6240;&#x6709;&#x7684;&#x7269;&#x7406;&#x5185;&#x5B58;&#xFF0C;&#x800C;&#x4E0D;&#x7BA1;&#x5F53;&#x524D;&#x7684;&#x5185;&#x5B58;&#x72B6;&#x6001;&#x5982;&#x4F55;&#x3002;
+2&#xFF0C; &#x8868;&#x793A;&#x5185;&#x6838;&#x5141;&#x8BB8;&#x5206;&#x914D;&#x8D85;&#x8FC7;&#x6240;&#x6709;&#x7269;&#x7406;&#x5185;&#x5B58;&#x548C;&#x4EA4;&#x6362;&#x7A7A;&#x95F4;&#x603B;&#x548C;&#x7684;&#x5185;&#x5B58;</p>
+</li>
+</ol>
+<p>&#x6CE8;&#x610F;&#xFF1A;redis&#x5728;dump&#x6570;&#x636E;&#x7684;&#x65F6;&#x5019;&#xFF0C;&#x4F1A;fork&#x51FA;&#x4E00;&#x4E2A;&#x5B50;&#x8FDB;&#x7A0B;&#xFF0C;&#x7406;&#x8BBA;&#x4E0A;child&#x8FDB;&#x7A0B;&#x6240;&#x5360;&#x7528;&#x7684;&#x5185;&#x5B58;&#x548C;parent&#x662F;&#x4E00;&#x6837;&#x7684;&#xFF0C;&#x6BD4;&#x5982;parent&#x5360;&#x7528; &#x7684;&#x5185;&#x5B58;&#x4E3A;8G&#xFF0C;&#x8FD9;&#x4E2A;&#x65F6;&#x5019;&#x4E5F;&#x8981;&#x540C;&#x6837;&#x5206;&#x914D;8G&#x7684;&#x5185;&#x5B58;&#x7ED9;child,&#x5982;&#x679C;&#x5185;&#x5B58;&#x65E0;&#x6CD5;&#x8D1F;&#x62C5;&#xFF0C;&#x5F80;&#x5F80;&#x4F1A;&#x9020;&#x6210;redis&#x670D;&#x52A1;&#x5668;&#x7684;down&#x673A;&#x6216;&#x8005;IO&#x8D1F;&#x8F7D;&#x8FC7;&#x9AD8;&#xFF0C;&#x6548;&#x7387;&#x4E0B;&#x964D;&#x3002;&#x6240; &#x4EE5;&#x8FD9;&#x91CC;&#x6BD4;&#x8F83;&#x4F18;&#x5316;&#x7684;&#x5185;&#x5B58;&#x5206;&#x914D;&#x7B56;&#x7565;&#x5E94;&#x8BE5;&#x8BBE;&#x7F6E;&#x4E3A; 1&#xFF08;&#x8868;&#x793A;&#x5185;&#x6838;&#x5141;&#x8BB8;&#x5206;&#x914D;&#x6240;&#x6709;&#x7684;&#x7269;&#x7406;&#x5185;&#x5B58;&#xFF0C;&#x800C;&#x4E0D;&#x7BA1;&#x5F53;&#x524D;&#x7684;&#x5185;&#x5B58;&#x72B6;&#x6001;&#x5982;&#x4F55;&#xFF09;&#x3002;</p>
+<p>&#x8FD9;&#x91CC;&#x53C8;&#x6D89;&#x53CA;&#x5230;Overcommit&#x548C;OOM&#x3002;</p>
+<p>&#x4EC0;&#x4E48;&#x662F;Overcommit&#x548C;OOM
+&#x5728;Unix&#x4E2D;&#xFF0C;&#x5F53;&#x4E00;&#x4E2A;&#x7528;&#x6237;&#x8FDB;&#x7A0B;&#x4F7F;&#x7528;malloc()&#x51FD;&#x6570;&#x7533;&#x8BF7;&#x5185;&#x5B58;&#x65F6;&#xFF0C;&#x5047;&#x5982;&#x8FD4;&#x56DE;&#x503C;&#x662F;NULL&#xFF0C;&#x5219;&#x8FD9;&#x4E2A;&#x8FDB;&#x7A0B;&#x77E5;&#x9053;&#x5F53;&#x524D;&#x6CA1;&#x6709;&#x53EF;&#x7528;&#x5185;&#x5B58;&#x7A7A;&#x95F4;&#xFF0C;&#x5C31;&#x4F1A;&#x505A;&#x76F8;&#x5E94;&#x7684;&#x5904;&#x7406;&#x5DE5;&#x4F5C;&#x3002;&#x8BB8;&#x591A;&#x8FDB;&#x7A0B;&#x4F1A;&#x6253;&#x5370;&#x9519;&#x8BEF;&#x4FE1;&#x606F;&#x5E76;&#x9000;&#x51FA;&#x3002;</p>
+<p>Linux&#x4F7F;&#x7528;&#x53E6;&#x5916;&#x4E00;&#x79CD;&#x5904;&#x7406;&#x65B9;&#x5F0F;&#xFF0C;&#x5B83;&#x5BF9;&#x5927;&#x90E8;&#x5206;&#x7533;&#x8BF7;&#x5185;&#x5B58;&#x7684;&#x8BF7;&#x6C42;&#x90FD;&#x56DE;&#x590D;&quot;yes&quot;&#xFF0C;&#x4EE5;&#x4FBF;&#x80FD;&#x8DD1;&#x66F4;&#x591A;&#x66F4;&#x5927;&#x7684;&#x7A0B;&#x5E8F;&#x3002;&#x56E0;&#x4E3A;&#x7533;&#x8BF7;&#x5185;&#x5B58;&#x540E;&#xFF0C;&#x5E76;&#x4E0D;&#x4F1A;&#x9A6C;&#x4E0A;&#x4F7F;&#x7528;&#x5185;&#x5B58;&#x3002;&#x8FD9;&#x79CD;&#x6280;&#x672F;&#x53EB;&#x505A;Overcommit&#x3002;
+&#x5F53;&#x5185;&#x5B58;&#x4E0D;&#x8DB3;&#x65F6;&#xFF0C;&#x4F1A;&#x53D1;&#x751F;OOM killer(OOM=out-of-memory)&#x3002;&#x5B83;&#x4F1A;&#x9009;&#x62E9;&#x6740;&#x6B7B;&#x4E00;&#x4E9B;&#x8FDB;&#x7A0B;(&#x7528;&#x6237;&#x6001;&#x8FDB;&#x7A0B;&#xFF0C;&#x4E0D;&#x662F;&#x5185;&#x6838;&#x7EBF;&#x7A0B;)&#xFF0C;&#x4EE5;&#x4FBF;&#x91CA;&#x653E;&#x5185;&#x5B58;&#x3002;</p>
+<p>Overcommit&#x7684;&#x7B56;&#x7565;
+Linux&#x4E0B;overcommit&#x6709;&#x4E09;&#x79CD;&#x7B56;&#x7565;(Documentation/vm/overcommit-accounting)&#xFF1A;</p>
+<ol>
+<li>&#x542F;&#x53D1;&#x5F0F;&#x7B56;&#x7565;&#x3002;&#x5408;&#x7406;&#x7684;overcommit&#x4F1A;&#x88AB;&#x63A5;&#x53D7;&#xFF0C;&#x4E0D;&#x5408;&#x7406;&#x7684;overcommit&#x4F1A;&#x88AB;&#x62D2;&#x7EDD;&#x3002;</li>
+<li>&#x4EFB;&#x4F55;overcommit&#x90FD;&#x4F1A;&#x88AB;&#x63A5;&#x53D7;&#x3002;</li>
+<li>&#x5F53;&#x7CFB;&#x7EDF;&#x5206;&#x914D;&#x7684;&#x5185;&#x5B58;&#x8D85;&#x8FC7;swap+N%*&#x7269;&#x7406;RAM(N%&#x7531;vm.overcommit_ratio&#x51B3;&#x5B9A;)&#x65F6;&#xFF0C;&#x4F1A;&#x62D2;&#x7EDD;commit&#x3002;
+overcommit&#x7684;&#x7B56;&#x7565;&#x901A;&#x8FC7;vm.overcommit_memory&#x8BBE;&#x7F6E;&#x3002;
+overcommit&#x7684;&#x767E;&#x5206;&#x6BD4;&#x7531;vm.overcommit_ratio&#x8BBE;&#x7F6E;&#x3002;</li>
+</ol>
+<h2 id="echo-2--procsysvmovercommitmemory">echo 2 &gt; /proc/sys/vm/overcommit_memory</h2>
+<h2 id="echo-80--procsysvmovercommitratio">echo 80 &gt; /proc/sys/vm/overcommit_ratio</h2>
+<p>&#x5F53;oom-killer&#x53D1;&#x751F;&#x65F6;&#xFF0C;linux&#x4F1A;&#x9009;&#x62E9;&#x6740;&#x6B7B;&#x54EA;&#x4E9B;&#x8FDB;&#x7A0B;
+&#x9009;&#x62E9;&#x8FDB;&#x7A0B;&#x7684;&#x51FD;&#x6570;&#x662F;oom_badness&#x51FD;&#x6570;(&#x5728;mm/oom_kill.c&#x4E2D;)&#xFF0C;&#x8BE5;&#x51FD;&#x6570;&#x4F1A;&#x8BA1;&#x7B97;&#x6BCF;&#x4E2A;&#x8FDB;&#x7A0B;&#x7684;&#x70B9;&#x6570;(0~1000)&#x3002;
+&#x70B9;&#x6570;&#x8D8A;&#x9AD8;&#xFF0C;&#x8FD9;&#x4E2A;&#x8FDB;&#x7A0B;&#x8D8A;&#x6709;&#x53EF;&#x80FD;&#x88AB;&#x6740;&#x6B7B;&#x3002;
+&#x6BCF;&#x4E2A;&#x8FDB;&#x7A0B;&#x7684;&#x70B9;&#x6570;&#x8DDF;oom_score_adj&#x6709;&#x5173;&#xFF0C;&#x800C;&#x4E14;oom_score_adj&#x53EF;&#x4EE5;&#x88AB;&#x8BBE;&#x7F6E;(-1000&#x6700;&#x4F4E;&#xFF0C;1000&#x6700;&#x9AD8;)&#x3002;
+&#x9519;&#x8BEF;2&#xFF1A;
+WARNING: The TCP backlog setting of 511 cannot be enforced because /proc/sys/net/core/somaxconn is set to the lower value of 128.</p>
+<p>echo 511 &gt; /proc/sys/net/core/somaxconn
+&#x9519;&#x8BEF;3&#xFF1A;</p>
+<p>16433:X 12 Jun 14:52:37.734 * Increased maximum number of open files to 10032 (it was originally set to 1024).</p>
+<p>&#x65B0;&#x88C5;&#x7684;linux&#x9ED8;&#x8BA4;&#x53EA;&#x6709;1024&#xFF0C;&#x5F53;&#x8D1F;&#x8F7D;&#x8F83;&#x5927;&#x65F6;&#xFF0C;&#x4F1A;&#x7ECF;&#x5E38;&#x51FA;&#x73B0;error: too many open files</p>
+<p>ulimit -a&#xFF1A;&#x4F7F;&#x7528;&#x53EF;&#x4EE5;&#x67E5;&#x770B;&#x5F53;&#x524D;&#x7CFB;&#x7EDF;&#x7684;&#x6240;&#x6709;&#x9650;&#x5236;&#x503C;</p>
+<p>vim /etc/security/limits.conf</p>
+<p>&#x5728;&#x6587;&#x4EF6;&#x7684;&#x672B;&#x5C3E;&#x52A0;&#x4E0A;</p>
+<ul>
+<li>soft nofile 65535</li>
+<li>hard nofile 65535
+&#x6267;&#x884C;su&#x6216;&#x8005;&#x91CD;&#x65B0;&#x5173;&#x95ED;&#x8FDE;&#x63A5;&#x7528;&#x6237;&#x518D;&#x6267;&#x884C;ulimit -a&#x5C31;&#x53EF;&#x4EE5;&#x67E5;&#x770B;&#x4FEE;&#x6539;&#x540E;&#x7684;&#x7ED3;&#x679C;&#x3002; </li>
+</ul>
+<p>&#x6545;&#x969C;&#x5207;&#x6362;&#x673A;&#x5236;</p>
+<ol>
+<li>&#x542F;&#x52A8;&#x7FA4;&#x96C6;&#x540E;&#xFF0C;&#x7FA4;&#x96C6;&#x7A0B;&#x5E8F;&#x9ED8;&#x8BA4;&#x4F1A;&#x5728;&#x4ECE;&#x5E93;&#x7684;redis&#x6587;&#x4EF6;&#x4E2D;&#x52A0;&#x5165;&#x8FDE;&#x63A5;&#x4E3B;&#x7684;&#x914D;&#x7F6E;</li>
+</ol>
+<h2 id="generated-by-config-rewrite">Generated by CONFIG REWRITE</h2>
+<p>slaveof 192.168.137.40 6379
+2.&#x542F;&#x52A8;&#x7FA4;&#x96C6;&#x4E4B;&#x540E;&#xFF0C;&#x7FA4;&#x96C6;&#x7A0B;&#x5E8F;&#x9ED8;&#x8BA4;&#x4F1A;&#x5728;&#x4E3B;&#x4ECE;&#x7684;sentinel.conf&#x6587;&#x4EF6;&#x4E2D;&#x52A0;&#x5165;&#x7FA4;&#x96C6;&#x4FE1;&#x606F;</p>
+<p>&#x4E3B;&#xFF1A;</p>
+<p>port 26379
+dir &quot;/usr/local/redis-6379&quot;</p>
+<h2 id="&#x5B88;&#x62A4;&#x8FDB;&#x7A0B;&#x6A21;&#x5F0F;">&#x5B88;&#x62A4;&#x8FDB;&#x7A0B;&#x6A21;&#x5F0F;</h2>
+<p>daemonize yes</p>
+<h2 id="&#x6307;&#x660E;&#x65E5;&#x5FD7;&#x6587;&#x4EF6;&#x540D;">&#x6307;&#x660E;&#x65E5;&#x5FD7;&#x6587;&#x4EF6;&#x540D;</h2>
+<p>logfile &quot;./sentinel.log&quot;
+sentinel monitor mymaster 192.168.137.40 6379 1
+sentinel down-after-milliseconds mymaster 5000
+sentinel failover-timeout mymaster 18000
+sentinel auth-pass mymaster 123456</p>
+<h2 id="generated-by-config-rewrite">Generated by CONFIG REWRITE</h2>
+<p>sentinel config-epoch mymaster 0
+sentinel leader-epoch mymaster 1
+sentinel known-slave mymaster 192.168.137.40 6380
+sentinel known-sentinel mymaster 192.168.137.40 26380 c77c5f64aaad0137a228875e531c7127ceeb5c3f
+sentinel current-epoch 1</p>
+<p>&#x4ECE;&#xFF1A;</p>
+<h1 id="sentinel&#x7AEF;&#x53E3;">sentinel&#x7AEF;&#x53E3;</h1>
+<p>port 26380</p>
+<h1 id="&#x5DE5;&#x4F5C;&#x8DEF;&#x5F84;">&#x5DE5;&#x4F5C;&#x8DEF;&#x5F84;</h1>
+<p>dir &quot;/usr/local/redis-6380&quot;</p>
+<h2 id="&#x5B88;&#x62A4;&#x8FDB;&#x7A0B;&#x6A21;&#x5F0F;">&#x5B88;&#x62A4;&#x8FDB;&#x7A0B;&#x6A21;&#x5F0F;</h2>
+<p>daemonize yes</p>
+<h2 id="&#x6307;&#x660E;&#x65E5;&#x5FD7;&#x6587;&#x4EF6;&#x540D;">&#x6307;&#x660E;&#x65E5;&#x5FD7;&#x6587;&#x4EF6;&#x540D;</h2>
+<p>logfile &quot;./sentinel.log&quot;</p>
+<h1 id="&#x54E8;&#x5175;&#x76D1;&#x63A7;&#x7684;master&#xFF0C;&#x4E3B;&#x4ECE;&#x914D;&#x7F6E;&#x4E00;&#x6837;&#xFF0C;&#x5728;&#x8FDB;&#x884C;&#x4E3B;&#x4ECE;&#x5207;&#x6362;&#x65F6;6379&#x4F1A;&#x53D8;&#x6210;&#x5F53;&#x524D;&#x7684;master&#x7AEF;&#x53E3;&#xFF0C;">&#x54E8;&#x5175;&#x76D1;&#x63A7;&#x7684;master&#xFF0C;&#x4E3B;&#x4ECE;&#x914D;&#x7F6E;&#x4E00;&#x6837;&#xFF0C;&#x5728;&#x8FDB;&#x884C;&#x4E3B;&#x4ECE;&#x5207;&#x6362;&#x65F6;6379&#x4F1A;&#x53D8;&#x6210;&#x5F53;&#x524D;&#x7684;master&#x7AEF;&#x53E3;&#xFF0C;</h1>
+<p>sentinel monitor mymaster 192.168.137.40 6379 1</p>
+<h2 id="master&#x6216;slave&#x591A;&#x957F;&#x65F6;&#x95F4;&#xFF08;&#x9ED8;&#x8BA4;30&#x79D2;&#xFF09;&#x4E0D;&#x80FD;&#x4F7F;&#x7528;&#x540E;&#x6807;&#x8BB0;&#x4E3A;sdown&#x72B6;&#x6001;&#x3002;">master&#x6216;slave&#x591A;&#x957F;&#x65F6;&#x95F4;&#xFF08;&#x9ED8;&#x8BA4;30&#x79D2;&#xFF09;&#x4E0D;&#x80FD;&#x4F7F;&#x7528;&#x540E;&#x6807;&#x8BB0;&#x4E3A;s_down&#x72B6;&#x6001;&#x3002;</h2>
+<p>sentinel down-after-milliseconds mymaster 5000</p>
+<h1 id="&#x82E5;sentinel&#x5728;&#x8BE5;&#x914D;&#x7F6E;&#x503C;&#x5185;&#x672A;&#x80FD;&#x5B8C;&#x6210;failover&#x64CD;&#x4F5C;&#xFF08;&#x5373;&#x6545;&#x969C;&#x65F6;masterslave&#x81EA;&#x52A8;&#x5207;&#x6362;&#xFF09;&#xFF0C;&#x5219;&#x8BA4;&#x4E3A;&#x672C;&#x6B21;failover&#x5931;&#x8D25;&#x3002;">&#x82E5;sentinel&#x5728;&#x8BE5;&#x914D;&#x7F6E;&#x503C;&#x5185;&#x672A;&#x80FD;&#x5B8C;&#x6210;failover&#x64CD;&#x4F5C;&#xFF08;&#x5373;&#x6545;&#x969C;&#x65F6;master/slave&#x81EA;&#x52A8;&#x5207;&#x6362;&#xFF09;&#xFF0C;&#x5219;&#x8BA4;&#x4E3A;&#x672C;&#x6B21;failover&#x5931;&#x8D25;&#x3002;</h1>
+<p>sentinel failover-timeout mymaster 18000</p>
+<h1 id="&#x8BBE;&#x7F6E;master&#x548C;slaves&#x9A8C;&#x8BC1;&#x5BC6;&#x7801;">&#x8BBE;&#x7F6E;master&#x548C;slaves&#x9A8C;&#x8BC1;&#x5BC6;&#x7801;</h1>
+<p>sentinel auth-pass mymaster 123456</p>
+<h1 id="&#x54E8;&#x5175;&#x7A0B;&#x5E8F;&#x81EA;&#x52A8;&#x6DFB;&#x52A0;&#x7684;&#x90E8;&#x5206;">&#x54E8;&#x5175;&#x7A0B;&#x5E8F;&#x81EA;&#x52A8;&#x6DFB;&#x52A0;&#x7684;&#x90E8;&#x5206;</h1>
+<h2 id="generated-by-config-rewrite">Generated by CONFIG REWRITE]</h2>
+<p>sentinel config-epoch mymaster 0
+sentinel leader-epoch mymaster 1</p>
+<h3 id="&#x6307;&#x660E;&#x4E86;&#x5F53;&#x524D;&#x7FA4;&#x96C6;&#x7684;&#x4ECE;&#x5E93;&#x7684;ip&#x548C;&#x7AEF;&#x53E3;&#xFF0C;&#x5728;&#x4E3B;&#x4ECE;&#x5207;&#x6362;&#x65F6;&#x8BE5;&#x503C;&#x4F1A;&#x6539;&#x53D8;">&#x6307;&#x660E;&#x4E86;&#x5F53;&#x524D;&#x7FA4;&#x96C6;&#x7684;&#x4ECE;&#x5E93;&#x7684;ip&#x548C;&#x7AEF;&#x53E3;&#xFF0C;&#x5728;&#x4E3B;&#x4ECE;&#x5207;&#x6362;&#x65F6;&#x8BE5;&#x503C;&#x4F1A;&#x6539;&#x53D8;</h3>
+<p>sentinel known-slave mymaster 192.168.137.40 6380</p>
+<h3 id="&#x9664;&#x4E86;&#x5F53;&#x524D;&#x7684;&#x54E8;&#x5175;&#x8FD8;&#x6709;&#x54EA;&#x4E9B;&#x76D1;&#x63A7;&#x7684;&#x54E8;&#x5175;">&#x9664;&#x4E86;&#x5F53;&#x524D;&#x7684;&#x54E8;&#x5175;&#x8FD8;&#x6709;&#x54EA;&#x4E9B;&#x76D1;&#x63A7;&#x7684;&#x54E8;&#x5175;</h3>
+<p>sentinel known-sentinel mymaster 192.168.137.40 26379 7a88891a6147e202a53601ca16a3d438e9d55c9d
+sentinel current-epoch 1</p>
+<footer class="page-footer"><span class="copyright"><a href="http://39.104.110.227:8090/" target="_blank">&#x516C;&#x53F8;&#x4FE1;&#x606F;</a><p></p>Copyright &#xA9; 2017-2020 | Distributed under all right reserved&#xFF0C;powered by Gitbook</span><span class="footer-modification"> Updated at 
+2021-02-20 15:09:26
 </span></footer>
                                 
                                 </section>
@@ -904,7 +1158,7 @@
     <script>
         var gitbook = gitbook || [];
         gitbook.push(function() {
-            gitbook.page.hasChanged({"page":{"title":"redis","level":"3.7.3","depth":2,"next":{"title":"文件存储","level":"3.8","depth":1,"path":"filestore/filestoreinfo.md","ref":"filestore/filestoreinfo.md","articles":[]},"previous":{"title":"postgre","level":"3.7.2","depth":2,"path":"database/postgre.md","ref":"database/postgre.md","articles":[]},"dir":"neutral"},"config":{"plugins":["github","codesnippet","splitter","page-toc-button","image-captions","editlink","back-to-top-button","-lunr","-search","search-plus","github-buttons@2.1.0","favicon@^0.0.2","tbfed-pagefooter@^0.0.1","3-ba","theme-default","-highlight","prism","prism-themes","sitemap-general","lightbox","ga","alerts","livereload"],"styles":{"ebook":"styles/ebook.css","epub":"styles/epub.css","mobi":"styles/mobi.css","pdf":"styles/pdf.css","print":"styles/print.css","website":"styles/website.css"},"pluginsConfig":{"tbfed-pagefooter":{"copyright":"<a href=http://39.104.110.227:8090/>公司信息</a></p>Copyright © 2017-2020 | Distributed under","modify_label":" Updated at ","modify_format":"YYYY-MM-DD HH:mm:ss"},"prism":{"css":["prism-themes/themes/prism-ghcolors.css"]},"github":{"url":"https://github.com/en-en/DevOps.github.io"},"editlink":{"label":"编辑本页","multilingual":false,"base":"https://github.com/en-en/DevOps.github.io/blob/master/"},"livereload":{},"splitter":{},"codesnippet":{},"sitemap-general":{"prefix":"https://github.com/en-en/DevOps.github.io"},"fontsettings":{"theme":"white","family":"sans","size":2},"favicon":{"shortcut":"favicon.ico","bookmark":"favicon.ico"},"lightbox":{"jquery":true,"sameUuid":false},"page-toc-button":{},"back-to-top-button":{},"prism-themes":{},"alerts":{},"github-buttons":{"repo":"en-en/DevOps.github.io","types":["star"],"size":"small"},"3-ba":{"configuration":"auto","token":"11f7d254cfa4e0ca44b175c66d379ecc"},"ga":{"configuration":"auto","token":"UA-93485976-1"},"sharing":{"facebook":true,"twitter":true,"google":false,"weibo":false,"instapaper":false,"vk":false,"all":["facebook","google","twitter","weibo","instapaper"]},"theme-default":{"showLevel":true,"styles":{"ebook":"styles/ebook.css","epub":"styles/epub.css","mobi":"styles/mobi.css","pdf":"styles/pdf.css","print":"styles/print.css","website":"styles/website.css"}},"search-plus":{},"image-captions":{"caption":"图 _PAGE_LEVEL_._PAGE_IMAGE_NUMBER_：_CAPTION_","variable_name":"_pictures"}},"theme":"default","author":"Wang Gang（王刚）","pdf":{"pageNumbers":true,"fontSize":12,"fontFamily":"Arial","paperSize":"a4","chapterMark":"pagebreak","pageBreaksBefore":"/","margin":{"right":62,"left":62,"top":56,"bottom":56}},"structure":{"langs":"LANGS.md","readme":"README.md","glossary":"GLOSSARY.md","summary":"SUMMARY.md"},"variables":{"_pictures":[{"backlink":"cloud-native/kubernetes-and-cloud-native-app-overview.html#fig2.3.1","level":"2.3","list_caption":"Figure: Cloud native思维导图","alt":"Cloud native思维导图","nro":1,"url":"../images/cloud-native-architecutre-mindnode.jpg","index":1,"caption_template":"图 _PAGE_LEVEL_._PAGE_IMAGE_NUMBER_：_CAPTION_","label":"Cloud native思维导图","attributes":{},"skip":false,"key":"2.3.1"},{"backlink":"cloud-native/kubernetes-and-cloud-native-app-overview.html#fig2.3.2","level":"2.3","list_caption":"Figure: 十二因素应用","alt":"十二因素应用","nro":2,"url":"../images/12-factor-app.png","index":2,"caption_template":"图 _PAGE_LEVEL_._PAGE_IMAGE_NUMBER_：_CAPTION_","label":"十二因素应用","attributes":{},"skip":false,"key":"2.3.2"},{"backlink":"cloud-native/kubernetes-and-cloud-native-app-overview.html#fig2.3.3","level":"2.3","list_caption":"Figure: 使用Jenkins进行持续集成与发布流程图","alt":"使用Jenkins进行持续集成与发布流程图","nro":3,"url":"../images/kubernetes-jenkins-ci-cd.png","index":3,"caption_template":"图 _PAGE_LEVEL_._PAGE_IMAGE_NUMBER_：_CAPTION_","label":"使用Jenkins进行持续集成与发布流程图","attributes":{},"skip":false,"key":"2.3.3"},{"backlink":"cloud-native/kubernetes-and-cloud-native-app-overview.html#fig2.3.4","level":"2.3","list_caption":"Figure: filebeat日志收集架构图","alt":"filebeat日志收集架构图","nro":4,"url":"../images/filebeat-log-collector-arch.png","index":4,"caption_template":"图 _PAGE_LEVEL_._PAGE_IMAGE_NUMBER_：_CAPTION_","label":"filebeat日志收集架构图","attributes":{},"skip":false,"key":"2.3.4"},{"backlink":"cloud-native/kubernetes-and-cloud-native-app-overview.html#fig2.3.5","level":"2.3","list_caption":"Figure: kibana界面","alt":"kibana界面","nro":5,"url":"../images/filebeat-docker-test.jpg","index":5,"caption_template":"图 _PAGE_LEVEL_._PAGE_IMAGE_NUMBER_：_CAPTION_","label":"kibana界面","attributes":{},"skip":false,"key":"2.3.5"},{"backlink":"cloud-native/kubernetes-and-cloud-native-app-overview.html#fig2.3.6","level":"2.3","list_caption":"Figure: Grafana界面示意图1","alt":"Grafana界面示意图1","nro":6,"url":"../images/kubernetes-devops-example-grafana-1.png","index":6,"caption_template":"图 _PAGE_LEVEL_._PAGE_IMAGE_NUMBER_：_CAPTION_","label":"Grafana界面示意图1","attributes":{},"skip":false,"key":"2.3.6"},{"backlink":"cloud-native/kubernetes-and-cloud-native-app-overview.html#fig2.3.7","level":"2.3","list_caption":"Figure: Grafana界面示意图2","alt":"Grafana界面示意图2","nro":7,"url":"../images/kubernetes-devops-example-grafana-2.png","index":7,"caption_template":"图 _PAGE_LEVEL_._PAGE_IMAGE_NUMBER_：_CAPTION_","label":"Grafana界面示意图2","attributes":{},"skip":false,"key":"2.3.7"},{"backlink":"cloud-native/kubernetes-and-cloud-native-app-overview.html#fig2.3.8","level":"2.3","list_caption":"Figure: Grafana界面示意图3","alt":"Grafana界面示意图3","nro":8,"url":"../images/kubernetes-devops-example-grafana-3.png","index":8,"caption_template":"图 _PAGE_LEVEL_._PAGE_IMAGE_NUMBER_：_CAPTION_","label":"Grafana界面示意图3","attributes":{},"skip":false,"key":"2.3.8"},{"backlink":"cloud-native/from-kubernetes-to-cloud-native.html#fig2.4.1","level":"2.4","list_caption":"Figure: Kubernetes架构","alt":"Kubernetes架构","nro":9,"url":"../images/kubernetes-high-level-component-archtecture.jpg","index":1,"caption_template":"图 _PAGE_LEVEL_._PAGE_IMAGE_NUMBER_：_CAPTION_","label":"Kubernetes架构","attributes":{},"skip":false,"key":"2.4.1"},{"backlink":"cloud-native/from-kubernetes-to-cloud-native.html#fig2.4.2","level":"2.4","list_caption":"Figure: Cloud Native Core target","alt":"Cloud Native Core target","nro":10,"url":"../images/cloud-native-core-target.jpg","index":2,"caption_template":"图 _PAGE_LEVEL_._PAGE_IMAGE_NUMBER_：_CAPTION_","label":"Cloud Native Core target","attributes":{},"skip":false,"key":"2.4.2"},{"backlink":"cloud-native/from-kubernetes-to-cloud-native.html#fig2.4.3","level":"2.4","list_caption":"Figure: Cloud Native Features","alt":"Cloud Native Features","nro":11,"url":"https://jimmysong.io/kubernetes-handbook/images/cloud-native-architecutre-mindnode.jpg","index":3,"caption_template":"图 _PAGE_LEVEL_._PAGE_IMAGE_NUMBER_：_CAPTION_","label":"Cloud Native Features","attributes":{},"skip":false,"key":"2.4.3"},{"backlink":"cloud-native/from-kubernetes-to-cloud-native.html#fig2.4.4","level":"2.4","list_caption":"Figure: Building a Cloud Native Architecture with Kubernetes followed 12 factor app","alt":"Building a Cloud Native Architecture with Kubernetes followed 12 factor app","nro":12,"url":"../images/building-cloud-native-architecture-with-kubernetes.png","index":4,"caption_template":"图 _PAGE_LEVEL_._PAGE_IMAGE_NUMBER_：_CAPTION_","label":"Building a Cloud Native Architecture with Kubernetes followed 12 factor app","attributes":{},"skip":false,"key":"2.4.4"},{"backlink":"cloud-native/from-kubernetes-to-cloud-native.html#fig2.4.5","level":"2.4","list_caption":"Figure: Kubernetes solutions","alt":"Kubernetes solutions","nro":13,"url":"../images/20210207101715.jpg","index":5,"caption_template":"图 _PAGE_LEVEL_._PAGE_IMAGE_NUMBER_：_CAPTION_","label":"Kubernetes solutions","attributes":{},"skip":false,"key":"2.4.5"},{"backlink":"practice/node-installation.html#fig3.1.7.1","level":"3.1.7","list_caption":"Figure: nginx欢迎页面","alt":"nginx欢迎页面","nro":14,"url":"../images/kubernetes-installation-test-nginx.png","index":1,"caption_template":"图 _PAGE_LEVEL_._PAGE_IMAGE_NUMBER_：_CAPTION_","label":"nginx欢迎页面","attributes":{},"skip":false,"key":"3.1.7.1"},{"backlink":"practice/dashboard-addon-installation.html#fig3.1.9.1","level":"3.1.9","list_caption":"Figure: kubernetes dashboard","alt":"kubernetes dashboard","nro":15,"url":"../images/kubernetes-dashboard-raw.jpg","index":1,"caption_template":"图 _PAGE_LEVEL_._PAGE_IMAGE_NUMBER_：_CAPTION_","label":"kubernetes dashboard","attributes":{},"skip":false,"key":"3.1.9.1"},{"backlink":"practice/dashboard-addon-installation.html#fig3.1.9.2","level":"3.1.9","list_caption":"Figure: V1.6.3版本的dashboard界面","alt":"V1.6.3版本的dashboard界面","nro":16,"url":"../images/dashboard-v163.jpg","index":2,"caption_template":"图 _PAGE_LEVEL_._PAGE_IMAGE_NUMBER_：_CAPTION_","label":"V1.6.3版本的dashboard界面","attributes":{},"skip":false,"key":"3.1.9.2"},{"backlink":"practice/dashboard-addon-installation.html#fig3.1.9.3","level":"3.1.9","list_caption":"Figure: pod无法正常启动","alt":"pod无法正常启动","nro":17,"url":"../images/dashboard-addon-installation001.png","index":3,"caption_template":"图 _PAGE_LEVEL_._PAGE_IMAGE_NUMBER_：_CAPTION_","label":"pod无法正常启动","attributes":{},"skip":false,"key":"3.1.9.3"},{"backlink":"practice/efk-addon-installation.html#fig3.1.10.1","level":"3.1.10","list_caption":"Figure: es-setting","alt":"es-setting","nro":18,"url":"../images/es-setting.png","index":1,"caption_template":"图 _PAGE_LEVEL_._PAGE_IMAGE_NUMBER_：_CAPTION_","label":"es-setting","attributes":{},"skip":false,"key":"3.1.10.1"},{"backlink":"practice/efk-addon-installation.html#fig3.1.10.2","level":"3.1.10","list_caption":"Figure: es-home","alt":"es-home","nro":19,"url":"../images/kubernetes-efk-kibana.jpg","index":2,"caption_template":"图 _PAGE_LEVEL_._PAGE_IMAGE_NUMBER_：_CAPTION_","label":"es-home","attributes":{},"skip":false,"key":"3.1.10.2"},{"backlink":"practice/traefik-ingress-installation.html#fig3.2.1.1","level":"3.2.1","list_caption":"Figure: kubernetes-dashboard","alt":"kubernetes-dashboard","nro":20,"url":"../images/traefik-dashboard.jpg","index":1,"caption_template":"图 _PAGE_LEVEL_._PAGE_IMAGE_NUMBER_：_CAPTION_","label":"kubernetes-dashboard","attributes":{},"skip":false,"key":"3.2.1.1"},{"backlink":"practice/traefik-ingress-installation.html#fig3.2.1.2","level":"3.2.1","list_caption":"Figure: traefik-nginx","alt":"traefik-nginx","nro":21,"url":"../images/traefik-nginx.jpg","index":2,"caption_template":"图 _PAGE_LEVEL_._PAGE_IMAGE_NUMBER_：_CAPTION_","label":"traefik-nginx","attributes":{},"skip":false,"key":"3.2.1.2"},{"backlink":"practice/traefik-ingress-installation.html#fig3.2.1.3","level":"3.2.1","list_caption":"Figure: traefik-guestbook","alt":"traefik-guestbook","nro":22,"url":"../images/traefik-guestbook.jpg","index":3,"caption_template":"图 _PAGE_LEVEL_._PAGE_IMAGE_NUMBER_：_CAPTION_","label":"traefik-guestbook","attributes":{},"skip":false,"key":"3.2.1.3"},{"backlink":"practice/prometheus.html#fig3.4.1.1","level":"3.4.1","list_caption":"Figure: Prometheus 架构图","alt":"Prometheus 架构图","nro":23,"url":"../images/006tNbRwly1fwcgsn11fej311j0mjadw.jpg","index":1,"caption_template":"图 _PAGE_LEVEL_._PAGE_IMAGE_NUMBER_：_CAPTION_","label":"Prometheus 架构图","attributes":{},"skip":false,"key":"3.4.1.1"},{"backlink":"practice/using-prometheus-to-monitor-kuberentes-cluster.html#fig3.4.1.1.1","level":"3.4.1.1","list_caption":"Figure: Grafana页面","alt":"Grafana页面","nro":24,"url":"../images/kubernetes-prometheus-monitoring.jpg","index":1,"caption_template":"图 _PAGE_LEVEL_._PAGE_IMAGE_NUMBER_：_CAPTION_","label":"Grafana页面","attributes":{},"skip":false,"key":"3.4.1.1.1"},{"backlink":"practice/opentracing.html#fig3.5.1.1","level":"3.5.1","list_caption":"Figure: Jaeger UI","alt":"Jaeger UI","nro":25,"url":"../images/006tNbRwly1fwjg48fh7xj31kw0wedrg.jpg","index":1,"caption_template":"图 _PAGE_LEVEL_._PAGE_IMAGE_NUMBER_：_CAPTION_","label":"Jaeger UI","attributes":{},"skip":false,"key":"3.5.1.1"},{"backlink":"practice/opentracing.html#fig3.5.1.2","level":"3.5.1","list_caption":"Figure: Chrome Inspector","alt":"Chrome Inspector","nro":26,"url":"../images/006tNbRwly1fwjkfbvfluj30y70hf0y9.jpg","index":2,"caption_template":"图 _PAGE_LEVEL_._PAGE_IMAGE_NUMBER_：_CAPTION_","label":"Chrome Inspector","attributes":{},"skip":false,"key":"3.5.1.2"},{"backlink":"practice/ci-cd.html#fig3.6.1","level":"3.6","list_caption":"Figure: CI/CD with Kubernetes","alt":"CI/CD with Kubernetes","nro":27,"url":"../images/00704eQkgy1fsaxszh01vj30da0j2jvn.jpg","index":1,"caption_template":"图 _PAGE_LEVEL_._PAGE_IMAGE_NUMBER_：_CAPTION_","label":"CI/CD with Kubernetes","attributes":{},"skip":false,"key":"3.6.1"},{"backlink":"practice/ci-cd.html#fig3.6.2","level":"3.6","list_caption":"Figure: Kubernetes改变了应用的基础架构","alt":"Kubernetes改变了应用的基础架构","nro":28,"url":"../images/00704eQkgy1fsayashxz3j31c00w6aed.jpg","index":2,"caption_template":"图 _PAGE_LEVEL_._PAGE_IMAGE_NUMBER_：_CAPTION_","label":"Kubernetes改变了应用的基础架构","attributes":{},"skip":false,"key":"3.6.2"},{"backlink":"practice/ci-cd.html#fig3.6.3","level":"3.6","list_caption":"Figure: Kubernetes中的CI/CD","alt":"Kubernetes中的CI/CD","nro":29,"url":"../images/00704eQkgy1fsayfzk3ezj31bu0tkdky.jpg","index":3,"caption_template":"图 _PAGE_LEVEL_._PAGE_IMAGE_NUMBER_：_CAPTION_","label":"Kubernetes中的CI/CD","attributes":{},"skip":false,"key":"3.6.3"},{"backlink":"practice/jenkins-ci-cd.html#fig3.6.1.1","level":"3.6.1","list_caption":"Figure: 基于Jenkins的持续集成与发布","alt":"基于Jenkins的持续集成与发布","nro":30,"url":"../images/kubernetes-jenkins-ci-cd.png","index":1,"caption_template":"图 _PAGE_LEVEL_._PAGE_IMAGE_NUMBER_：_CAPTION_","label":"基于Jenkins的持续集成与发布","attributes":{},"skip":false,"key":"3.6.1.1"},{"backlink":"devops/environment.html#fig4.1.1","level":"4.1","list_caption":"Figure: 自动运维流程","alt":"自动运维流程","nro":31,"url":"../images/devops.jpg","index":1,"caption_template":"图 _PAGE_LEVEL_._PAGE_IMAGE_NUMBER_：_CAPTION_","label":"自动运维流程","attributes":{},"skip":false,"key":"4.1.1"},{"backlink":"cloud-native/handbook.html#fig5.1.1","level":"5.1","list_caption":"Figure: Cloud Native Core target","alt":"Cloud Native Core target","nro":32,"url":"../images/handbook.png","index":1,"caption_template":"图 _PAGE_LEVEL_._PAGE_IMAGE_NUMBER_：_CAPTION_","label":"Cloud Native Core target","attributes":{},"skip":false,"key":"5.1.1"},{"backlink":"devops/outline.html#fig6.1.1","level":"6.1","list_caption":"Figure: Building a Cloud Native Architecture with Kubernetes followed 12 factor app","alt":"Building a Cloud Native Architecture with Kubernetes followed 12 factor app","nro":33,"url":"../images/building-cloud-native-architecture-with-kubernetes.png","index":1,"caption_template":"图 _PAGE_LEVEL_._PAGE_IMAGE_NUMBER_：_CAPTION_","label":"Building a Cloud Native Architecture with Kubernetes followed 12 factor app","attributes":{},"skip":false,"key":"6.1.1"},{"backlink":"devops/outline.html#fig6.1.2","level":"6.1","list_caption":"Figure: Kubernetes solutions","alt":"Kubernetes solutions","nro":34,"url":"../images/20210207101715.jpg","index":2,"caption_template":"图 _PAGE_LEVEL_._PAGE_IMAGE_NUMBER_：_CAPTION_","label":"Kubernetes solutions","attributes":{},"skip":false,"key":"6.1.2"},{"backlink":"devops/outline.html#fig6.1.3","level":"6.1","list_caption":"Figure: Cloud Native Core target","alt":"Cloud Native Core target","nro":35,"url":"../images/handbook.png","index":3,"caption_template":"图 _PAGE_LEVEL_._PAGE_IMAGE_NUMBER_：_CAPTION_","label":"Cloud Native Core target","attributes":{},"skip":false,"key":"6.1.3"}]},"title":"自动运维(DevOps)","language":"zh-hans","links":{"sidebar":{"回到主页":"https://en-en.github.io/DevOps.github.io/","资源详情":"https://github.com/en-en/DevOps.github.io/"}},"gitbook":"*","description":"描述公司运维技术选型，以及技术实现具体方案细节"},"file":{"path":"database/redis.md","mtime":"2021-02-09T08:59:42.416Z","type":"markdown"},"gitbook":{"version":"3.2.3","time":"2021-02-09T09:57:21.756Z"},"basePath":"..","book":{"language":""}});
+            gitbook.page.hasChanged({"page":{"title":"redis","level":"3.7.3","depth":2,"next":{"title":"文件存储","level":"3.8","depth":1,"path":"filestore/filestoreinfo.md","ref":"filestore/filestoreinfo.md","articles":[]},"previous":{"title":"postgre","level":"3.7.2","depth":2,"path":"database/postgre.md","ref":"database/postgre.md","articles":[]},"dir":"ltr"},"config":{"plugins":["github","codesnippet","splitter","page-toc-button","image-captions","editlink","back-to-top-button","-lunr","-search","search-plus","github-buttons@2.1.0","favicon@^0.0.2","tbfed-pagefooter@^0.0.1","3-ba","theme-default","-highlight","prism","prism-themes","sitemap-general","lightbox","ga","alerts","livereload"],"styles":{"ebook":"styles/ebook.css","epub":"styles/epub.css","mobi":"styles/mobi.css","pdf":"styles/pdf.css","print":"styles/print.css","website":"styles/website.css"},"pluginsConfig":{"tbfed-pagefooter":{"copyright":"<a href=http://39.104.110.227:8090/>公司信息</a></p>Copyright © 2017-2020 | Distributed under","modify_label":" Updated at ","modify_format":"YYYY-MM-DD HH:mm:ss"},"prism":{"css":["prism-themes/themes/prism-ghcolors.css"]},"github":{"url":"https://github.com/en-en/DevOps.github.io"},"editlink":{"label":"编辑本页","multilingual":false,"base":"https://github.com/en-en/DevOps.github.io/blob/master/"},"livereload":{},"splitter":{},"codesnippet":{},"sitemap-general":{"prefix":"https://github.com/en-en/DevOps.github.io"},"fontsettings":{"theme":"white","family":"sans","size":2},"favicon":{"shortcut":"favicon.ico","bookmark":"favicon.ico"},"lightbox":{"jquery":true,"sameUuid":false},"page-toc-button":{},"back-to-top-button":{},"prism-themes":{},"alerts":{},"github-buttons":{"repo":"en-en/DevOps.github.io","types":["star"],"size":"small"},"3-ba":{"configuration":"auto","token":"11f7d254cfa4e0ca44b175c66d379ecc"},"ga":{"configuration":"auto","token":"UA-93485976-1"},"sharing":{"facebook":true,"twitter":true,"google":false,"weibo":false,"instapaper":false,"vk":false,"all":["facebook","google","twitter","weibo","instapaper"]},"theme-default":{"showLevel":true,"styles":{"ebook":"styles/ebook.css","epub":"styles/epub.css","mobi":"styles/mobi.css","pdf":"styles/pdf.css","print":"styles/print.css","website":"styles/website.css"}},"search-plus":{},"image-captions":{"caption":"图 _PAGE_LEVEL_._PAGE_IMAGE_NUMBER_：_CAPTION_","variable_name":"_pictures"}},"theme":"default","author":"Wang Gang（王刚）","pdf":{"pageNumbers":true,"fontSize":12,"fontFamily":"Arial","paperSize":"a4","chapterMark":"pagebreak","pageBreaksBefore":"/","margin":{"right":62,"left":62,"top":56,"bottom":56}},"structure":{"langs":"LANGS.md","readme":"README.md","glossary":"GLOSSARY.md","summary":"SUMMARY.md"},"variables":{"_pictures":[{"backlink":"cloud-native/kubernetes-and-cloud-native-app-overview.html#fig2.3.1","level":"2.3","list_caption":"Figure: Cloud native思维导图","alt":"Cloud native思维导图","nro":1,"url":"../images/cloud-native-architecutre-mindnode.jpg","index":1,"caption_template":"图 _PAGE_LEVEL_._PAGE_IMAGE_NUMBER_：_CAPTION_","label":"Cloud native思维导图","attributes":{},"skip":false,"key":"2.3.1"},{"backlink":"cloud-native/kubernetes-and-cloud-native-app-overview.html#fig2.3.2","level":"2.3","list_caption":"Figure: 十二因素应用","alt":"十二因素应用","nro":2,"url":"../images/12-factor-app.png","index":2,"caption_template":"图 _PAGE_LEVEL_._PAGE_IMAGE_NUMBER_：_CAPTION_","label":"十二因素应用","attributes":{},"skip":false,"key":"2.3.2"},{"backlink":"cloud-native/kubernetes-and-cloud-native-app-overview.html#fig2.3.3","level":"2.3","list_caption":"Figure: 使用Jenkins进行持续集成与发布流程图","alt":"使用Jenkins进行持续集成与发布流程图","nro":3,"url":"../images/kubernetes-jenkins-ci-cd.png","index":3,"caption_template":"图 _PAGE_LEVEL_._PAGE_IMAGE_NUMBER_：_CAPTION_","label":"使用Jenkins进行持续集成与发布流程图","attributes":{},"skip":false,"key":"2.3.3"},{"backlink":"cloud-native/kubernetes-and-cloud-native-app-overview.html#fig2.3.4","level":"2.3","list_caption":"Figure: filebeat日志收集架构图","alt":"filebeat日志收集架构图","nro":4,"url":"../images/filebeat-log-collector-arch.png","index":4,"caption_template":"图 _PAGE_LEVEL_._PAGE_IMAGE_NUMBER_：_CAPTION_","label":"filebeat日志收集架构图","attributes":{},"skip":false,"key":"2.3.4"},{"backlink":"cloud-native/kubernetes-and-cloud-native-app-overview.html#fig2.3.5","level":"2.3","list_caption":"Figure: kibana界面","alt":"kibana界面","nro":5,"url":"../images/filebeat-docker-test.jpg","index":5,"caption_template":"图 _PAGE_LEVEL_._PAGE_IMAGE_NUMBER_：_CAPTION_","label":"kibana界面","attributes":{},"skip":false,"key":"2.3.5"},{"backlink":"cloud-native/kubernetes-and-cloud-native-app-overview.html#fig2.3.6","level":"2.3","list_caption":"Figure: Grafana界面示意图1","alt":"Grafana界面示意图1","nro":6,"url":"../images/kubernetes-devops-example-grafana-1.png","index":6,"caption_template":"图 _PAGE_LEVEL_._PAGE_IMAGE_NUMBER_：_CAPTION_","label":"Grafana界面示意图1","attributes":{},"skip":false,"key":"2.3.6"},{"backlink":"cloud-native/kubernetes-and-cloud-native-app-overview.html#fig2.3.7","level":"2.3","list_caption":"Figure: Grafana界面示意图2","alt":"Grafana界面示意图2","nro":7,"url":"../images/kubernetes-devops-example-grafana-2.png","index":7,"caption_template":"图 _PAGE_LEVEL_._PAGE_IMAGE_NUMBER_：_CAPTION_","label":"Grafana界面示意图2","attributes":{},"skip":false,"key":"2.3.7"},{"backlink":"cloud-native/kubernetes-and-cloud-native-app-overview.html#fig2.3.8","level":"2.3","list_caption":"Figure: Grafana界面示意图3","alt":"Grafana界面示意图3","nro":8,"url":"../images/kubernetes-devops-example-grafana-3.png","index":8,"caption_template":"图 _PAGE_LEVEL_._PAGE_IMAGE_NUMBER_：_CAPTION_","label":"Grafana界面示意图3","attributes":{},"skip":false,"key":"2.3.8"},{"backlink":"cloud-native/from-kubernetes-to-cloud-native.html#fig2.4.1","level":"2.4","list_caption":"Figure: Kubernetes架构","alt":"Kubernetes架构","nro":9,"url":"../images/kubernetes-high-level-component-archtecture.jpg","index":1,"caption_template":"图 _PAGE_LEVEL_._PAGE_IMAGE_NUMBER_：_CAPTION_","label":"Kubernetes架构","attributes":{},"skip":false,"key":"2.4.1"},{"backlink":"cloud-native/from-kubernetes-to-cloud-native.html#fig2.4.2","level":"2.4","list_caption":"Figure: Cloud Native Core target","alt":"Cloud Native Core target","nro":10,"url":"../images/cloud-native-core-target.jpg","index":2,"caption_template":"图 _PAGE_LEVEL_._PAGE_IMAGE_NUMBER_：_CAPTION_","label":"Cloud Native Core target","attributes":{},"skip":false,"key":"2.4.2"},{"backlink":"cloud-native/from-kubernetes-to-cloud-native.html#fig2.4.3","level":"2.4","list_caption":"Figure: Cloud Native Features","alt":"Cloud Native Features","nro":11,"url":"https://jimmysong.io/kubernetes-handbook/images/cloud-native-architecutre-mindnode.jpg","index":3,"caption_template":"图 _PAGE_LEVEL_._PAGE_IMAGE_NUMBER_：_CAPTION_","label":"Cloud Native Features","attributes":{},"skip":false,"key":"2.4.3"},{"backlink":"cloud-native/from-kubernetes-to-cloud-native.html#fig2.4.4","level":"2.4","list_caption":"Figure: Building a Cloud Native Architecture with Kubernetes followed 12 factor app","alt":"Building a Cloud Native Architecture with Kubernetes followed 12 factor app","nro":12,"url":"../images/building-cloud-native-architecture-with-kubernetes.png","index":4,"caption_template":"图 _PAGE_LEVEL_._PAGE_IMAGE_NUMBER_：_CAPTION_","label":"Building a Cloud Native Architecture with Kubernetes followed 12 factor app","attributes":{},"skip":false,"key":"2.4.4"},{"backlink":"cloud-native/from-kubernetes-to-cloud-native.html#fig2.4.5","level":"2.4","list_caption":"Figure: Kubernetes solutions","alt":"Kubernetes solutions","nro":13,"url":"../images/20210207101715.jpg","index":5,"caption_template":"图 _PAGE_LEVEL_._PAGE_IMAGE_NUMBER_：_CAPTION_","label":"Kubernetes solutions","attributes":{},"skip":false,"key":"2.4.5"},{"backlink":"practice/node-installation.html#fig3.1.7.1","level":"3.1.7","list_caption":"Figure: nginx欢迎页面","alt":"nginx欢迎页面","nro":14,"url":"../images/kubernetes-installation-test-nginx.png","index":1,"caption_template":"图 _PAGE_LEVEL_._PAGE_IMAGE_NUMBER_：_CAPTION_","label":"nginx欢迎页面","attributes":{},"skip":false,"key":"3.1.7.1"},{"backlink":"practice/dashboard-addon-installation.html#fig3.1.9.1","level":"3.1.9","list_caption":"Figure: kubernetes dashboard","alt":"kubernetes dashboard","nro":15,"url":"../images/kubernetes-dashboard-raw.jpg","index":1,"caption_template":"图 _PAGE_LEVEL_._PAGE_IMAGE_NUMBER_：_CAPTION_","label":"kubernetes dashboard","attributes":{},"skip":false,"key":"3.1.9.1"},{"backlink":"practice/dashboard-addon-installation.html#fig3.1.9.2","level":"3.1.9","list_caption":"Figure: V1.6.3版本的dashboard界面","alt":"V1.6.3版本的dashboard界面","nro":16,"url":"../images/dashboard-v163.jpg","index":2,"caption_template":"图 _PAGE_LEVEL_._PAGE_IMAGE_NUMBER_：_CAPTION_","label":"V1.6.3版本的dashboard界面","attributes":{},"skip":false,"key":"3.1.9.2"},{"backlink":"practice/dashboard-addon-installation.html#fig3.1.9.3","level":"3.1.9","list_caption":"Figure: pod无法正常启动","alt":"pod无法正常启动","nro":17,"url":"../images/dashboard-addon-installation001.png","index":3,"caption_template":"图 _PAGE_LEVEL_._PAGE_IMAGE_NUMBER_：_CAPTION_","label":"pod无法正常启动","attributes":{},"skip":false,"key":"3.1.9.3"},{"backlink":"practice/efk-addon-installation.html#fig3.1.10.1","level":"3.1.10","list_caption":"Figure: es-setting","alt":"es-setting","nro":18,"url":"../images/es-setting.png","index":1,"caption_template":"图 _PAGE_LEVEL_._PAGE_IMAGE_NUMBER_：_CAPTION_","label":"es-setting","attributes":{},"skip":false,"key":"3.1.10.1"},{"backlink":"practice/efk-addon-installation.html#fig3.1.10.2","level":"3.1.10","list_caption":"Figure: es-home","alt":"es-home","nro":19,"url":"../images/kubernetes-efk-kibana.jpg","index":2,"caption_template":"图 _PAGE_LEVEL_._PAGE_IMAGE_NUMBER_：_CAPTION_","label":"es-home","attributes":{},"skip":false,"key":"3.1.10.2"},{"backlink":"practice/traefik-ingress-installation.html#fig3.2.1.1","level":"3.2.1","list_caption":"Figure: kubernetes-dashboard","alt":"kubernetes-dashboard","nro":20,"url":"../images/traefik-dashboard.jpg","index":1,"caption_template":"图 _PAGE_LEVEL_._PAGE_IMAGE_NUMBER_：_CAPTION_","label":"kubernetes-dashboard","attributes":{},"skip":false,"key":"3.2.1.1"},{"backlink":"practice/traefik-ingress-installation.html#fig3.2.1.2","level":"3.2.1","list_caption":"Figure: traefik-nginx","alt":"traefik-nginx","nro":21,"url":"../images/traefik-nginx.jpg","index":2,"caption_template":"图 _PAGE_LEVEL_._PAGE_IMAGE_NUMBER_：_CAPTION_","label":"traefik-nginx","attributes":{},"skip":false,"key":"3.2.1.2"},{"backlink":"practice/traefik-ingress-installation.html#fig3.2.1.3","level":"3.2.1","list_caption":"Figure: traefik-guestbook","alt":"traefik-guestbook","nro":22,"url":"../images/traefik-guestbook.jpg","index":3,"caption_template":"图 _PAGE_LEVEL_._PAGE_IMAGE_NUMBER_：_CAPTION_","label":"traefik-guestbook","attributes":{},"skip":false,"key":"3.2.1.3"},{"backlink":"practice/prometheus.html#fig3.4.1.1","level":"3.4.1","list_caption":"Figure: Prometheus 架构图","alt":"Prometheus 架构图","nro":23,"url":"../images/006tNbRwly1fwcgsn11fej311j0mjadw.jpg","index":1,"caption_template":"图 _PAGE_LEVEL_._PAGE_IMAGE_NUMBER_：_CAPTION_","label":"Prometheus 架构图","attributes":{},"skip":false,"key":"3.4.1.1"},{"backlink":"practice/using-prometheus-to-monitor-kuberentes-cluster.html#fig3.4.1.1.1","level":"3.4.1.1","list_caption":"Figure: Grafana页面","alt":"Grafana页面","nro":24,"url":"../images/kubernetes-prometheus-monitoring.jpg","index":1,"caption_template":"图 _PAGE_LEVEL_._PAGE_IMAGE_NUMBER_：_CAPTION_","label":"Grafana页面","attributes":{},"skip":false,"key":"3.4.1.1.1"},{"backlink":"practice/opentracing.html#fig3.5.1.1","level":"3.5.1","list_caption":"Figure: Jaeger UI","alt":"Jaeger UI","nro":25,"url":"../images/006tNbRwly1fwjg48fh7xj31kw0wedrg.jpg","index":1,"caption_template":"图 _PAGE_LEVEL_._PAGE_IMAGE_NUMBER_：_CAPTION_","label":"Jaeger UI","attributes":{},"skip":false,"key":"3.5.1.1"},{"backlink":"practice/opentracing.html#fig3.5.1.2","level":"3.5.1","list_caption":"Figure: Chrome Inspector","alt":"Chrome Inspector","nro":26,"url":"../images/006tNbRwly1fwjkfbvfluj30y70hf0y9.jpg","index":2,"caption_template":"图 _PAGE_LEVEL_._PAGE_IMAGE_NUMBER_：_CAPTION_","label":"Chrome Inspector","attributes":{},"skip":false,"key":"3.5.1.2"},{"backlink":"practice/ci-cd.html#fig3.6.1","level":"3.6","list_caption":"Figure: CI/CD with Kubernetes","alt":"CI/CD with Kubernetes","nro":27,"url":"../images/00704eQkgy1fsaxszh01vj30da0j2jvn.jpg","index":1,"caption_template":"图 _PAGE_LEVEL_._PAGE_IMAGE_NUMBER_：_CAPTION_","label":"CI/CD with Kubernetes","attributes":{},"skip":false,"key":"3.6.1"},{"backlink":"practice/ci-cd.html#fig3.6.2","level":"3.6","list_caption":"Figure: Kubernetes改变了应用的基础架构","alt":"Kubernetes改变了应用的基础架构","nro":28,"url":"../images/00704eQkgy1fsayashxz3j31c00w6aed.jpg","index":2,"caption_template":"图 _PAGE_LEVEL_._PAGE_IMAGE_NUMBER_：_CAPTION_","label":"Kubernetes改变了应用的基础架构","attributes":{},"skip":false,"key":"3.6.2"},{"backlink":"practice/ci-cd.html#fig3.6.3","level":"3.6","list_caption":"Figure: Kubernetes中的CI/CD","alt":"Kubernetes中的CI/CD","nro":29,"url":"../images/00704eQkgy1fsayfzk3ezj31bu0tkdky.jpg","index":3,"caption_template":"图 _PAGE_LEVEL_._PAGE_IMAGE_NUMBER_：_CAPTION_","label":"Kubernetes中的CI/CD","attributes":{},"skip":false,"key":"3.6.3"},{"backlink":"practice/jenkins-ci-cd.html#fig3.6.1.1","level":"3.6.1","list_caption":"Figure: 基于Jenkins的持续集成与发布","alt":"基于Jenkins的持续集成与发布","nro":30,"url":"../images/kubernetes-jenkins-ci-cd.png","index":1,"caption_template":"图 _PAGE_LEVEL_._PAGE_IMAGE_NUMBER_：_CAPTION_","label":"基于Jenkins的持续集成与发布","attributes":{},"skip":false,"key":"3.6.1.1"},{"backlink":"database/redis.html#fig3.7.3.1","level":"3.7.3","list_caption":"Figure: Cloud Native Core target","alt":"Cloud Native Core target","nro":31,"url":"../images/redis.png","index":1,"caption_template":"图 _PAGE_LEVEL_._PAGE_IMAGE_NUMBER_：_CAPTION_","label":"Cloud Native Core target","attributes":{},"skip":false,"key":"3.7.3.1"},{"backlink":"devops/environment.html#fig4.1.1","level":"4.1","list_caption":"Figure: 自动运维流程","alt":"自动运维流程","nro":32,"url":"../images/devops.jpg","index":1,"caption_template":"图 _PAGE_LEVEL_._PAGE_IMAGE_NUMBER_：_CAPTION_","label":"自动运维流程","attributes":{},"skip":false,"key":"4.1.1"},{"backlink":"cloud-native/handbook.html#fig5.1.1","level":"5.1","list_caption":"Figure: Cloud Native Core target","alt":"Cloud Native Core target","nro":33,"url":"../images/handbook.png","index":1,"caption_template":"图 _PAGE_LEVEL_._PAGE_IMAGE_NUMBER_：_CAPTION_","label":"Cloud Native Core target","attributes":{},"skip":false,"key":"5.1.1"},{"backlink":"devops/outline.html#fig6.1.1","level":"6.1","list_caption":"Figure: Kubernetes构建云原生架构","alt":"Kubernetes构建云原生架构","nro":34,"url":"../images/building-cloud-native-architecture-with-kubernetes.png","index":1,"caption_template":"图 _PAGE_LEVEL_._PAGE_IMAGE_NUMBER_：_CAPTION_","label":"Kubernetes构建云原生架构","attributes":{},"skip":false,"key":"6.1.1"},{"backlink":"devops/outline.html#fig6.1.2","level":"6.1","list_caption":"Figure: 调研方案图","alt":"调研方案图","nro":35,"url":"../images/20210207101715.jpg","index":2,"caption_template":"图 _PAGE_LEVEL_._PAGE_IMAGE_NUMBER_：_CAPTION_","label":"调研方案图","attributes":{},"skip":false,"key":"6.1.2"},{"backlink":"devops/outline.html#fig6.1.3","level":"6.1","list_caption":"Figure: 运维流程图","alt":"运维流程图","nro":36,"url":"../images/handbook.png","index":3,"caption_template":"图 _PAGE_LEVEL_._PAGE_IMAGE_NUMBER_：_CAPTION_","label":"运维流程图","attributes":{},"skip":false,"key":"6.1.3"}]},"title":"自动运维(DevOps)","language":"zh-hans","links":{"sidebar":{"回到主页":"https://en-en.github.io/DevOps.github.io/","资源详情":"https://github.com/en-en/DevOps.github.io/"}},"gitbook":"*","description":"描述公司运维技术选型，以及技术实现具体方案细节"},"file":{"path":"database/redis.md","mtime":"2021-02-20T07:09:26.395Z","type":"markdown"},"gitbook":{"version":"3.2.3","time":"2021-02-20T10:13:12.307Z"},"basePath":"..","book":{"language":""}});
         });
     </script>
 </div>
